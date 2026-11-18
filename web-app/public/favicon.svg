@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="128" fill="#1E3A5F"/>
+  <rect x="32" y="32" width="448" height="448" rx="96" fill="#2C4A72" stroke="#3B6090" stroke-width="8"/>
+  <text x="256" y="290" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-weight="900" font-size="160" fill="#38BDF8" text-anchor="middle">SD</text>
+  <circle cx="370" cy="160" r="32" fill="#0EA5E9"/>
+  <circle cx="360" cy="150" r="6" fill="#FFFFFF"/>
+</svg>

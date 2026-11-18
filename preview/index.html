@@ -1,0 +1,1682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SUPR DUPR - Pickleball Analytics & Ratings</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      /* Clean, Grounded, Real Sports Palette - No Artificial Gradients */
+      --navy-dark: #1E3A5F;
+      --navy-surface: #2C4A72;
+      --navy-card-active: #265087;
+      --navy-border: #3B6090;
+      --bg-canvas: #F8FAFC;
+      --card-white: #FFFFFF;
+      --border-subtle: #E2E8F0;
+      --border-light: #F1F5F9;
+      --accent-cyan: #0EA5E9;
+      --accent-blue: #1E3A5F;
+      --text-slate: #0F172A;
+      --text-muted: #64748B;
+      --text-light-muted: #94A3B8;
+      --emerald-win: #059669;
+      --emerald-bg: #ECFDF5;
+      --coral-loss: #DC2626;
+      --coral-bg: #FEF2F2;
+      --warning-amber: #D97706;
+      --warning-bg: #FFFBEB;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: #E2E8F0;
+      color: var(--text-slate);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    /* Device frame wrapper */
+    .device-shell {
+      width: 100%;
+      max-width: 440px;
+      height: 900px;
+      max-height: 95vh;
+      background-color: var(--bg-canvas);
+      border-radius: 36px;
+      border: 8px solid var(--navy-dark);
+      box-shadow: 0 20px 40px -15px rgba(10, 20, 40, 0.3), 0 0 0 1px rgba(0,0,0,0.06);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Solid Dark Header */
+    .app-header {
+      background-color: var(--navy-dark);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #FFFFFF;
+      border-bottom: 1px solid var(--navy-border);
+      z-index: 10;
+    }
+
+    .brand-pill {
+      background-color: var(--navy-surface);
+      border: 1px solid var(--navy-border);
+      color: #38BDF8;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 6px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .header-title {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      color: #FFFFFF;
+    }
+
+    .header-actions button {
+      background: var(--navy-surface);
+      border: 1px solid var(--navy-border);
+      color: #E2E8F0;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background 0.15s ease, transform 0.1s ease;
+    }
+    .header-actions button:hover {
+      background: #2C4A72;
+      color: #FFFFFF;
+    }
+    .header-actions button:active {
+      transform: scale(0.94);
+    }
+
+    /* Content Canvas */
+    .content-area {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      padding-bottom: 85px;
+      background-color: var(--bg-canvas);
+    }
+
+    .content-area::-webkit-scrollbar {
+      width: 4px;
+    }
+    .content-area::-webkit-scrollbar-thumb {
+      background: #CBD5E1;
+      border-radius: 4px;
+    }
+
+    /* Solid Grounded Hero Card (No Fake Gradients or Floating Orbs) */
+    .hero-rating-card {
+      background-color: var(--navy-dark);
+      border-radius: 18px;
+      padding: 20px;
+      color: #FFFFFF;
+      margin-bottom: 14px;
+      border: 1px solid var(--navy-border);
+      box-shadow: 0 4px 12px rgba(10, 20, 40, 0.12);
+    }
+
+    .profile-hero-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .avatar-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background-color: var(--navy-surface);
+      border: 1px solid var(--navy-border);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    .hero-name {
+      font-size: 17px;
+      font-weight: 800;
+      color: #FFFFFF;
+      letter-spacing: -0.3px;
+    }
+
+    .hero-meta {
+      font-size: 12px;
+      color: #94A3B8;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 2px;
+    }
+
+    .hero-rating-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .rating-tab-box {
+      background-color: var(--navy-surface);
+      border: 1px solid var(--navy-border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .rating-tab-box:hover {
+      background-color: #2C4A72;
+    }
+    .rating-tab-box:active {
+      transform: scale(0.98);
+    }
+
+    .rating-tab-box.active {
+      background-color: var(--navy-card-active);
+      border-color: #38BDF8;
+    }
+
+    .rating-tab-label {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: #94A3B8;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .rating-tab-box.active .rating-tab-label {
+      color: #E2E8F0;
+    }
+
+    .rating-tab-num {
+      font-size: 25px;
+      font-weight: 900;
+      font-family: 'JetBrains Mono', monospace;
+      color: #FFFFFF;
+      margin-top: 4px;
+      letter-spacing: -0.5px;
+    }
+
+    .rating-tab-box.active .rating-tab-num {
+      color: #38BDF8;
+    }
+
+    .hero-reliability {
+      background-color: var(--navy-surface);
+      border: 1px solid var(--navy-border);
+      border-radius: 12px;
+      padding: 10px 14px;
+    }
+
+    .rel-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .rel-track {
+      background-color: #3B6090;
+      height: 6px;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .rel-fill {
+      height: 100%;
+      background-color: #0284C7;
+      border-radius: 6px;
+      transition: width 0.4s ease;
+    }
+
+    /* Flat Elevated White Cards */
+    .white-card {
+      background-color: var(--card-white);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 14px;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.02);
+    }
+
+    /* 3-Column Stats Row */
+    .stats-grid-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .stat-card-white {
+      background: var(--card-white);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 12px 10px;
+      text-align: center;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.02);
+      transition: border-color 0.15s ease;
+    }
+    .stat-card-white:hover {
+      border-color: #CBD5E1;
+    }
+
+    .stat-val-bold {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--text-slate);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .stat-label-muted {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    /* Real Sports Scorecard Component */
+    .match-feed-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding: 0 2px;
+    }
+
+    .section-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text-slate);
+      letter-spacing: -0.3px;
+    }
+
+    .feed-count {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .scorecard {
+      background: var(--card-white);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.02);
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .scorecard:hover {
+      border-color: #CBD5E1;
+      box-shadow: 0 3px 8px rgba(15, 23, 42, 0.04);
+    }
+
+    .scorecard-meta-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-light);
+      margin-bottom: 10px;
+    }
+
+    .meta-venue {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--text-slate);
+      font-weight: 700;
+    }
+
+    .meta-code {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-light-muted);
+      font-size: 10px;
+      letter-spacing: 0.5px;
+    }
+
+    .team-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 5px 0;
+    }
+
+    .team-name-col {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .team-row.winner .team-name-col {
+      color: var(--text-slate);
+      font-weight: 800;
+    }
+
+    .win-indicator-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: transparent;
+    }
+    .team-row.winner .win-indicator-dot {
+      background: var(--emerald-win);
+    }
+
+    .set-scores-wrap {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+
+    .set-cell {
+      width: 25px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      background: #F8FAFC;
+      border: 1px solid var(--border-light);
+      border-radius: 4px;
+    }
+    .team-row.winner .set-cell.winning-set {
+      color: var(--text-slate);
+      font-weight: 800;
+      background: #EDF2F7;
+      border-color: #E2E8F0;
+    }
+
+    .scorecard-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .rating-delta-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 5px;
+    }
+    .delta-win-chip {
+      background: var(--emerald-bg);
+      color: var(--emerald-win);
+    }
+    .delta-loss-chip {
+      background: var(--coral-bg);
+      color: var(--coral-loss);
+    }
+    .delta-pending-chip {
+      background: var(--warning-bg);
+      color: var(--warning-amber);
+    }
+
+    .status-note {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* Clean Real Rankings Table */
+    .leaderboard-table {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .rank-row {
+      background: var(--card-white);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: border-color 0.15s ease;
+    }
+    .rank-row:hover {
+      border-color: #CBD5E1;
+    }
+
+    .rank-row.current-user {
+      border: 1.5px solid var(--navy-dark);
+      background: #F8FAFC;
+    }
+
+    .rank-left-section {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .rank-pos {
+      width: 24px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--text-light-muted);
+      text-align: left;
+    }
+    .rank-row:nth-child(1) .rank-pos { color: #B45309; font-weight: 900; }
+    .rank-row:nth-child(2) .rank-pos { color: #475569; font-weight: 900; }
+    .rank-row:nth-child(3) .rank-pos { color: #78350F; font-weight: 900; }
+
+    .player-details {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .player-name-text {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text-slate);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .you-pill {
+      font-size: 9px;
+      background: var(--navy-dark);
+      color: #FFFFFF;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    .player-subline {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-top: 1px;
+    }
+
+    .rank-right-section {
+      text-align: right;
+    }
+
+    .rating-display-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 15px;
+      font-weight: 900;
+      color: var(--text-slate);
+      letter-spacing: -0.4px;
+    }
+
+    .reliability-stat {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+    .reliability-stat.official {
+      color: var(--emerald-win);
+    }
+
+    /* Solid Athletic Buttons (No Shiny Gradients) */
+    .btn-navy {
+      background-color: var(--navy-dark);
+      color: #FFFFFF;
+      font-weight: 800;
+      font-size: 14px;
+      padding: 13px 20px;
+      border-radius: 12px;
+      border: 1px solid var(--navy-border);
+      cursor: pointer;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 2px 4px rgba(10, 20, 40, 0.1);
+      transition: background-color 0.15s ease, transform 0.1s ease;
+    }
+    .btn-navy:hover {
+      background-color: #265087;
+    }
+    .btn-navy:active {
+      transform: scale(0.98);
+    }
+
+    .btn-outline-navy {
+      background: var(--card-white);
+      color: var(--navy-dark);
+      border: 1.5px solid var(--border-subtle);
+      padding: 10px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: background-color 0.15s ease, transform 0.1s ease;
+    }
+    .btn-outline-navy:hover {
+      background-color: #F8FAFC;
+      border-color: #CBD5E1;
+    }
+    .btn-outline-navy:active {
+      transform: scale(0.97);
+    }
+
+    /* Filter Chips */
+    .chip-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+    }
+    .chip-white {
+      background: var(--card-white);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .chip-white:hover {
+      border-color: var(--navy-dark);
+      color: var(--navy-dark);
+    }
+    .chip-white:active {
+      transform: scale(0.96);
+    }
+    .chip-white.active {
+      background-color: var(--navy-dark);
+      border-color: var(--navy-dark);
+      color: #FFFFFF;
+    }
+
+    /* Score Stepper */
+    .stepper-control {
+      display: inline-flex;
+      align-items: center;
+      background: #F1F5F9;
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 2px 4px;
+      gap: 2px;
+    }
+    .stepper-control button {
+      background: var(--card-white);
+      border: 1px solid var(--border-subtle);
+      color: var(--navy-dark);
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 900;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.15s ease, transform 0.1s ease;
+    }
+    .stepper-control button:hover {
+      background-color: #E2E8F0;
+    }
+    .stepper-control button:active {
+      transform: scale(0.92);
+    }
+    .stepper-control span {
+      width: 30px;
+      text-align: center;
+      font-weight: 800;
+      font-size: 15px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .input-field-clean, select {
+      width: 100%;
+      background: var(--card-white);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-slate);
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+    .input-field-clean:focus, select:focus {
+      border-color: var(--navy-dark);
+    }
+
+    /* Clean Bottom Navigation Bar */
+    .bottom-nav {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 66px;
+      background: #FFFFFF;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0 10px;
+      z-index: 20;
+    }
+
+    .nav-tab-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: var(--text-muted);
+      font-size: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 6px 14px;
+      border-radius: 10px;
+      transition: color 0.15s ease, transform 0.1s ease;
+      position: relative;
+    }
+    .nav-tab-item:active {
+      transform: scale(0.94);
+    }
+
+    .nav-tab-item i {
+      font-size: 18px;
+      margin-bottom: 4px;
+    }
+
+    .nav-tab-item.active {
+      color: var(--navy-dark);
+      font-weight: 800;
+    }
+
+    .nav-badge {
+      position: absolute;
+      top: 3px;
+      right: 12px;
+      background-color: var(--coral-loss);
+      color: #FFFFFF;
+      font-size: 9px;
+      font-weight: 900;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Toast Notification */
+    .toast-pill {
+      position: absolute;
+      top: 64px;
+      left: 16px;
+      right: 16px;
+      background-color: var(--navy-dark);
+      border: 1px solid var(--navy-border);
+      color: #FFFFFF;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 13px;
+      display: none;
+      box-shadow: 0 8px 24px rgba(10, 20, 40, 0.25);
+      z-index: 100;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="device-shell">
+    <div id="toastNotification" class="toast-pill"></div>
+
+    <!-- Top Navigation Bar: Solid Deep Navy -->
+    <div class="app-header">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span class="brand-pill">SUPR DUPR</span>
+        <span class="header-title" id="screenTitle">Player Analytics</span>
+      </div>
+      <div class="header-actions">
+        <button onclick="openEditModal()"><i class="fa-solid fa-user-gear"></i></button>
+      </div>
+    </div>
+
+    <!-- Content Router Area -->
+    <div class="content-area" id="mainContainer">
+      <!-- Injected dynamically -->
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <div class="bottom-nav">
+      <div class="nav-tab-item active" onclick="switchTab('profile', this)">
+        <i class="fa-solid fa-chart-simple"></i>
+        <span>Analytics</span>
+      </div>
+      <div class="nav-tab-item" onclick="switchTab('log', this)">
+        <i class="fa-solid fa-circle-plus"></i>
+        <span>Log Match</span>
+      </div>
+      <div class="nav-tab-item" onclick="switchTab('verify', this)">
+        <i class="fa-solid fa-shield-halved"></i>
+        <span id="verifyBadge" class="nav-badge">1</span>
+        <span>Verify</span>
+      </div>
+      <div class="nav-tab-item" onclick="switchTab('leaderboard', this)">
+        <i class="fa-solid fa-ranking-star"></i>
+        <span>Rankings</span>
+      </div>
+      <div class="nav-tab-item" onclick="switchTab('courts', this)">
+        <i class="fa-solid fa-location-dot"></i>
+        <span>Courts</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // State Store
+    const state = {
+      activeTab: 'profile',
+      isDoubles: true,
+      checkedInVenueId: null,
+      user: {
+        id: 'user_pratik',
+        name: 'Pratik Sharma',
+        city: 'Kathmandu',
+        homeHub: 'Tiptoe Pickleball Club (Sanepa)',
+        singlesRating: 3.420,
+        doublesRating: 3.585,
+        reliability: 84,
+        matchesPlayed: 14,
+        wins: 10,
+        losses: 4,
+        history: [
+          { date: 'Oct 18', rating: 3.100, delta: 0 },
+          { date: 'Oct 26', rating: 3.240, delta: 0.140 },
+          { date: 'Nov 02', rating: 3.310, delta: 0.070 },
+          { date: 'Nov 08', rating: 3.250, delta: -0.060 },
+          { date: 'Nov 14', rating: 3.585, delta: 0.335 }
+        ]
+      },
+      players: [
+        { id: 'p_aayush', name: 'Aayush Karki', city: 'Pokhara', hub: 'Lakeside Center', singles: 4.350, doubles: 4.410, rel: 95, matches: 42, wins: 33, losses: 9 },
+        { id: 'p_rohan', name: 'Rohan Shrestha', city: 'Kathmandu', hub: 'Tiptoe Club (Sanepa)', singles: 4.120, doubles: 4.250, rel: 92, matches: 34, wins: 26, losses: 8 },
+        { id: 'p_anjali', name: 'Anjali Tamang', city: 'Kathmandu', hub: 'Boudha Arena', singles: 3.820, doubles: 3.910, rel: 88, matches: 24, wins: 17, losses: 7 },
+        { id: 'p_bibek', name: 'Bibek Thapa', city: 'Lalitpur', hub: 'Jhamsikhel Hub', singles: 3.650, doubles: 3.780, rel: 80, matches: 19, wins: 12, losses: 7 },
+        { id: 'p_sneha', name: 'Sneha Shakya', city: 'Kathmandu', hub: 'Dunkmandu Court', singles: 3.250, doubles: 3.420, rel: 75, matches: 15, wins: 9, losses: 6 },
+        { id: 'p_sujan', name: 'Sujan Maharjan', city: 'Kathmandu', hub: 'Baluwatar Smash', singles: 2.850, doubles: 2.920, rel: 60, matches: 8, wins: 4, losses: 4 }
+      ],
+      matches: [
+        {
+          id: 'm_102',
+          code: 'NPR-834',
+          type: 'Singles',
+          date: 'Yesterday',
+          venue: 'Boudha Pickleball Arena',
+          team1: 'Anjali Tamang',
+          team2: 'Pratik Sharma',
+          winnerTeam: 1,
+          sets: [
+            { t1: 11, t2: 9 },
+            { t1: 8, t2: 11 },
+            { t1: 11, t2: 7 }
+          ],
+          loggedBy: 'Anjali Tamang',
+          status: 'pending',
+          delta: 0.082
+        },
+        {
+          id: 'm_101',
+          code: 'NPR-712',
+          type: 'Doubles',
+          date: 'Nov 14',
+          venue: 'Tiptoe Pickleball Club (Sanepa)',
+          team1: 'Pratik Sharma & Rohan Shrestha',
+          team2: 'Bibek Thapa & Sujan Maharjan',
+          winnerTeam: 1,
+          sets: [
+            { t1: 11, t2: 8 },
+            { t1: 11, t2: 5 }
+          ],
+          loggedBy: 'Pratik Sharma',
+          status: 'confirmed',
+          delta: 0.125
+        },
+        {
+          id: 'm_100',
+          code: 'NPR-650',
+          type: 'Doubles',
+          date: 'Nov 08',
+          venue: 'Jhamsikhel Sports Hub',
+          team1: 'Bibek Thapa & Sandeep Shah',
+          team2: 'Pratik Sharma & Anjali Tamang',
+          winnerTeam: 1,
+          sets: [
+            { t1: 11, t2: 8 },
+            { t1: 9, t2: 11 },
+            { t1: 11, t2: 7 }
+          ],
+          loggedBy: 'Bibek Thapa',
+          status: 'confirmed',
+          delta: -0.060
+        }
+      ],
+      venues: [
+        { id: 'v1', name: 'Tiptoe Pickleball Club', location: 'Sanepa, Lalitpur', courts: 4, surface: 'Cushion Acrylic', hours: '06:00 AM - 09:30 PM', active: 8, phone: '+977-9801234567' },
+        { id: 'v2', name: 'Boudha Pickleball Arena', location: 'Boudha, Kathmandu', courts: 3, surface: 'Outdoor Polymer', hours: '06:30 AM - 08:00 PM', active: 6, phone: '+977-9812345678' },
+        { id: 'v3', name: 'Dunkmandu Sports Hub', location: 'Chuchepati, Kathmandu', courts: 2, surface: 'Indoor Maple Wood', hours: '07:00 AM - 10:00 PM', active: 4, phone: '+977-9841238910' },
+        { id: 'v4', name: 'Jhamsikhel Pickleball', location: 'Jhamsikhel, Lalitpur', courts: 2, surface: 'Hardcourt', hours: '06:00 AM - 08:30 PM', active: 5, phone: '+977-9851122334' },
+        { id: 'v5', name: 'Lakeside Pickleball Center', location: 'Lakeside, Pokhara', courts: 4, surface: 'Scenic Hardcourt', hours: '06:00 AM - 09:00 PM', active: 11, phone: '+977-9861002233' }
+      ]
+    };
+
+    function showToast(msg) {
+      const el = document.getElementById('toastNotification');
+      el.innerHTML = `<i class="fa-solid fa-circle-check" style="color: #38BDF8; margin-right: 6px;"></i> ${msg}`;
+      el.style.display = 'block';
+      setTimeout(() => { el.style.display = 'none'; }, 3000);
+    }
+
+    // Helper to get player by name
+    function getPlayerByName(name) {
+      if (!name) return null;
+      if (name.includes('Pratik Sharma') || name.includes('You')) {
+        return {
+          id: state.user.id,
+          name: state.user.name,
+          singles: state.user.singlesRating,
+          doubles: state.user.doublesRating,
+          rel: state.user.reliability
+        };
+      }
+      return state.players.find(p => p.name === name) || { singles: 3.5, doubles: 3.5, rel: 60 };
+    }
+
+    // 5-Point Custom Rating Algorithm
+    function calculateMatchEngine(isDoubles, partnerName, op1Name, op2Name, sets) {
+      const u = state.user;
+      const userRating = isDoubles ? u.doublesRating : u.singlesRating;
+      const userRel = u.reliability;
+
+      let t1Ratings = [userRating];
+      let t1Rels = [userRel];
+      if (isDoubles) {
+        const p = getPlayerByName(partnerName);
+        if (p) {
+          t1Ratings.push(p.doubles || p.singles || 3.5);
+          t1Rels.push(p.rel || 50);
+        }
+      }
+
+      const o1 = getPlayerByName(op1Name);
+      let t2Ratings = [o1 ? (isDoubles ? o1.doubles : o1.singles) : 3.5];
+      let t2Rels = [o1 ? o1.rel : 50];
+
+      if (isDoubles && op2Name) {
+        const o2 = getPlayerByName(op2Name);
+        if (o2) {
+          t2Ratings.push(o2.doubles || 3.5);
+          t2Rels.push(o2.rel || 50);
+        }
+      }
+
+      const t1Avg = t1Ratings.reduce((a, b) => a + b, 0) / t1Ratings.length;
+      const t2Avg = t2Ratings.reduce((a, b) => a + b, 0) / t2Ratings.length;
+      const t1AvgRel = t1Rels.reduce((a, b) => a + b, 0) / t1Rels.length;
+      const t2AvgRel = t2Rels.reduce((a, b) => a + b, 0) / t2Rels.length;
+
+      // 1. Logistic Expected Win Probability (tuned scale divisor 0.75 for 1.0 - 6.0 range)
+      const diff = t1Avg - t2Avg;
+      const expectedT1 = 1.0 / (1.0 + Math.pow(10, -diff / 0.75));
+
+      // 2. Actual Match Outcome (majority of games won)
+      let t1Games = 0, t2Games = 0, t1Pts = 0, t2Pts = 0;
+      sets.forEach(s => {
+        if (s.t1 > s.t2) t1Games++;
+        else if (s.t2 > s.t1) t2Games++;
+        t1Pts += s.t1;
+        t2Pts += s.t2;
+      });
+      const actualOutcome = t1Games > t2Games ? 1.0 : (t1Games < t2Games ? 0.0 : 0.5);
+
+      // 3. Point Differential Factor (blowout vs close match scaling)
+      const totalPts = t1Pts + t2Pts;
+      const ptDiffRatio = totalPts > 0 ? Math.abs(t1Pts - t2Pts) / totalPts : 0;
+      const pdFactor = 0.75 + (ptDiffRatio * 0.60);
+
+      // 4. Dynamic K-Factor based on average Reliability Index
+      const avgRel = Math.round((t1AvgRel + t2AvgRel) / 2);
+      const baseK = 0.160;
+      let dynamicK = baseK;
+      if (avgRel < 40) dynamicK = baseK * 1.50;
+      else if (avgRel < 75) dynamicK = baseK * 1.15;
+      else dynamicK = baseK * 0.90;
+
+      // 5. Raw Delta & Floor Guarantee (+/-0.02 minimum)
+      let rawDelta = dynamicK * (actualOutcome - expectedT1) * pdFactor;
+      if (actualOutcome === 1.0 && rawDelta < 0.02) rawDelta = 0.02;
+      if (actualOutcome === 0.0 && rawDelta > -0.02) rawDelta = -0.02;
+
+      const delta = Math.round(rawDelta * 1000) / 1000;
+
+      return {
+        t1Avg: Math.round(t1Avg * 1000) / 1000,
+        t2Avg: Math.round(t2Avg * 1000) / 1000,
+        expectedT1Prob: Math.round(expectedT1 * 100),
+        actualOutcome,
+        winnerTeam: t1Games >= t2Games ? 1 : 2,
+        pdFactor: Math.round(pdFactor * 100) / 100,
+        dynamicK: Math.round(dynamicK * 1000) / 1000,
+        delta,
+        t1Games,
+        t2Games,
+        t1Pts,
+        t2Pts,
+        avgRel
+      };
+    }
+
+    function calculateNewReliability(matchesCount) {
+      if (matchesCount <= 1) return 25;
+      if (matchesCount <= 3) return 40;
+      if (matchesCount <= 6) return 60;
+      if (matchesCount <= 10) return 80;
+      if (matchesCount <= 15) return 92;
+      return Math.min(100, 92 + (matchesCount - 15));
+    }
+
+    function switchTab(tab, el) {
+      state.activeTab = tab;
+      document.querySelectorAll('.nav-tab-item').forEach(n => n.classList.remove('active'));
+      if (el) el.classList.add('active');
+      render();
+    }
+
+    function render() {
+      const container = document.getElementById('mainContainer');
+      const title = document.getElementById('screenTitle');
+      const pendingCount = state.matches.filter(m => m.status === 'pending').length;
+      
+      const badge = document.getElementById('verifyBadge');
+      badge.innerText = pendingCount;
+      badge.style.display = pendingCount > 0 ? 'flex' : 'none';
+
+      if (state.activeTab === 'profile') {
+        title.innerText = 'Player Analytics';
+        renderProfile(container);
+      } else if (state.activeTab === 'log') {
+        title.innerText = 'Log Match';
+        renderLogMatch(container);
+      } else if (state.activeTab === 'verify') {
+        title.innerText = 'Verification Queue';
+        renderVerificationQueue(container);
+      } else if (state.activeTab === 'leaderboard') {
+        title.innerText = 'SUPR Rankings';
+        renderLeaderboard(container);
+      } else if (state.activeTab === 'courts') {
+        title.innerText = 'Courts & Hubs';
+        renderCourts(container);
+      }
+    }
+
+    // 1. Profile / Analytics Screen
+    function renderProfile(container) {
+      const u = state.user;
+      const rating = state.isDoubles ? u.doublesRating : u.singlesRating;
+
+      // Clean Solid Line Trajectory Chart
+      const points = u.history.map((h, i) => {
+        const x = 25 + (i * 72);
+        const y = 95 - ((h.rating - 3.0) * 115);
+        return `${x},${y}`;
+      }).join(' ');
+
+      container.innerHTML = `
+        <!-- Solid Grounded Hero Card -->
+        <div class="hero-rating-card">
+          <div class="profile-hero-row">
+            <div class="avatar-circle">PS</div>
+            <div>
+              <div class="hero-name">${u.name}</div>
+              <div class="hero-meta">
+                <i class="fa-solid fa-location-dot" style="color: #38BDF8"></i> ${u.city}, Nepal
+                <span>•</span>
+                ${u.homeHub.split('(')[0]}
+              </div>
+            </div>
+          </div>
+
+          <!-- Dual Tabular Rating Boxes -->
+          <div class="hero-rating-grid">
+            <div class="rating-tab-box ${state.isDoubles ? 'active' : ''}" onclick="toggleRating(true)">
+              <div class="rating-tab-label">
+                <span>DOUBLES SUPR</span>
+                <i class="fa-solid fa-users" style="font-size: 11px;"></i>
+              </div>
+              <div class="rating-tab-num">${u.doublesRating.toFixed(3)}</div>
+            </div>
+            <div class="rating-tab-box ${!state.isDoubles ? 'active' : ''}" onclick="toggleRating(false)">
+              <div class="rating-tab-label">
+                <span>SINGLES SUPR</span>
+                <i class="fa-solid fa-user" style="font-size: 11px;"></i>
+              </div>
+              <div class="rating-tab-num">${u.singlesRating.toFixed(3)}</div>
+            </div>
+          </div>
+
+          <!-- Solid Reliability Meter -->
+          <div class="hero-reliability">
+            <div class="rel-header">
+              <span style="color: #94A3B8;"><i class="fa-solid fa-shield-halved" style="color: #38BDF8;"></i> Reliability Score</span>
+              <span style="color: #FFFFFF; font-weight: 800;">${u.reliability}% <span style="color: var(--emerald-win); font-size: 10px;">(OFFICIAL)</span></span>
+            </div>
+            <div class="rel-track">
+              <div class="rel-fill" style="width: ${u.reliability}%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3-Column Performance Stats Row -->
+        <div class="stats-grid-row">
+          <div class="stat-card-white">
+            <div class="stat-val-bold">${u.matchesPlayed}</div>
+            <div class="stat-label-muted">Matches</div>
+          </div>
+          <div class="stat-card-white">
+            <div class="stat-val-bold" style="color: var(--emerald-win);">${u.wins}W <span style="color: #CBD5E1; font-weight: 400;">-</span> <span style="color: var(--coral-loss);">${u.losses}L</span></div>
+            <div class="stat-label-muted">Record</div>
+          </div>
+          <div class="stat-card-white">
+            <div class="stat-val-bold">${Math.round((u.wins/u.matchesPlayed)*100)}%</div>
+            <div class="stat-label-muted">Win Rate</div>
+          </div>
+        </div>
+
+        <!-- Rating Progress Trajectory Chart - Clean Real Sports Styling -->
+        <div class="white-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <div>
+              <div style="font-size: 13px; font-weight: 800; color: var(--text-slate);">
+                ${state.isDoubles ? 'Doubles' : 'Singles'} Performance Trajectory
+              </div>
+              <div style="font-size: 11px; color: var(--text-muted);">Verified match rating changes</div>
+            </div>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 800; color: var(--navy-dark); background: #F1F5F9; padding: 3px 8px; border-radius: 6px;">
+              ${rating.toFixed(3)}
+            </span>
+          </div>
+
+          <svg width="100%" height="105" viewBox="0 0 340 110">
+            <line x1="0" y1="25" x2="340" y2="25" stroke="#E2E8F0" stroke-width="1" stroke-dasharray="2 2" />
+            <line x1="0" y1="65" x2="340" y2="65" stroke="#E2E8F0" stroke-width="1" stroke-dasharray="2 2" />
+            <polyline fill="none" stroke="#0284C7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" points="${points}" />
+            ${u.history.map((h, i) => {
+              const x = 25 + (i * 72);
+              const y = 95 - ((h.rating - 3.0) * 115);
+              return `
+                <circle cx="${x}" cy="${y}" r="4" fill="#FFFFFF" stroke="#0284C7" stroke-width="2" />
+              `;
+            }).join('')}
+          </svg>
+
+          <div style="display: flex; justify-content: space-between; font-size: 10px; color: var(--text-muted); font-weight: 600; margin-top: 6px;">
+            <span>${u.history[0].date}</span>
+            <span>Historical Progression</span>
+            <span>${u.history[u.history.length-1].date}</span>
+          </div>
+        </div>
+
+        <!-- RECENT MATCHES SCORECARD -->
+        <div class="match-feed-header">
+          <span class="section-title">Recent Matches</span>
+          <span class="feed-count">${state.matches.length} Total</span>
+        </div>
+
+        ${state.matches.map(m => {
+          const isPending = m.status === 'pending';
+          const isTeam1Winner = m.winnerTeam === 1;
+          const userInTeam1 = m.team1.includes('Pratik Sharma');
+          const isUserWinner = userInTeam1 ? isTeam1Winner : !isTeam1Winner;
+
+          return `
+            <div class="scorecard">
+              <!-- Meta Header -->
+              <div class="scorecard-meta-bar">
+                <span class="meta-venue">
+                  <i class="fa-solid fa-map-pin" style="color: var(--navy-dark); font-size: 10px;"></i>
+                  ${m.venue.split('(')[0]}
+                </span>
+                <span class="meta-code">${m.date} • #${m.code}</span>
+              </div>
+
+              <!-- Team 1 Row -->
+              <div class="team-row ${isTeam1Winner ? 'winner' : ''}">
+                <div class="team-name-col">
+                  <div class="win-indicator-dot"></div>
+                  <span>${m.team1}</span>
+                </div>
+                <div class="set-scores-wrap">
+                  ${m.sets.map(s => `
+                    <div class="set-cell ${s.t1 > s.t2 ? 'winning-set' : ''}">${s.t1}</div>
+                  `).join('')}
+                </div>
+              </div>
+
+              <!-- Team 2 Row -->
+              <div class="team-row ${!isTeam1Winner ? 'winner' : ''}">
+                <div class="team-name-col">
+                  <div class="win-indicator-dot"></div>
+                  <span>${m.team2}</span>
+                </div>
+                <div class="set-scores-wrap">
+                  ${m.sets.map(s => `
+                    <div class="set-cell ${s.t2 > s.t1 ? 'winning-set' : ''}">${s.t2}</div>
+                  `).join('')}
+                </div>
+              </div>
+
+              <!-- Scorecard Footer -->
+              <div class="scorecard-footer">
+                <div class="rating-delta-chip ${isPending ? 'delta-pending-chip' : (isUserWinner ? 'delta-win-chip' : 'delta-loss-chip')}">
+                  <i class="fa-solid ${isPending ? 'fa-hourglass-half' : (isUserWinner ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down')}"></i>
+                  <span>${isPending ? 'Pending' : (isUserWinner ? '+' + m.delta.toFixed(3) : m.delta.toFixed(3))} SUPR</span>
+                </div>
+                <span class="status-note">
+                  ${isPending ? 'Awaiting verification' : 'Official match'}
+                </span>
+              </div>
+            </div>
+          `;
+        }).join('')}
+      `;
+    }
+
+    function toggleRating(isD) {
+      state.isDoubles = isD;
+      render();
+    }
+
+    // 2. Log Match Screen
+    let logState = {
+      isDoubles: true,
+      partner: 'Rohan Shrestha',
+      op1: 'Bibek Thapa',
+      op2: 'Sujan Maharjan',
+      venue: 'Tiptoe Pickleball Club (Sanepa)',
+      g1_1: 11, g1_2: 8,
+      g2_1: 9, g2_2: 11,
+      g3_1: 11, g3_2: 7
+    };
+
+    function renderLogMatch(container) {
+      const currentSets = [
+        { t1: logState.g1_1, t2: logState.g1_2 },
+        { t1: logState.g2_1, t2: logState.g2_2 },
+        { t1: logState.g3_1, t2: logState.g3_2 }
+      ];
+
+      const calc = calculateMatchEngine(
+        logState.isDoubles,
+        logState.partner,
+        logState.op1,
+        logState.op2,
+        currentSets
+      );
+
+      container.innerHTML = `
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px;">
+          <button class="btn-outline-navy ${logState.isDoubles ? 'active' : ''}" style="${logState.isDoubles ? 'background: var(--navy-dark); color: #fff; border-color: var(--navy-dark);' : ''}" onclick="logState.isDoubles = true; render();">
+            <i class="fa-solid fa-users"></i> Doubles (2v2)
+          </button>
+          <button class="btn-outline-navy ${!logState.isDoubles ? 'active' : ''}" style="${!logState.isDoubles ? 'background: var(--navy-dark); color: #fff; border-color: var(--navy-dark);' : ''}" onclick="logState.isDoubles = false; render();">
+            <i class="fa-solid fa-user"></i> Singles (1v1)
+          </button>
+        </div>
+
+        <div class="white-card">
+          <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); margin-bottom: 12px; letter-spacing: 0.5px;">ROSTER SELECTION</div>
+          
+          <div style="font-size: 12px; font-weight: 800; color: var(--navy-dark); margin-bottom: 6px;">
+            <i class="fa-solid fa-shield"></i> Team 1: Pratik Sharma (${(logState.isDoubles ? state.user.doublesRating : state.user.singlesRating).toFixed(3)})
+          </div>
+          ${logState.isDoubles ? `
+            <select class="input-field-clean" onchange="logState.partner = this.value; render();">
+              <option value="Rohan Shrestha" ${logState.partner==='Rohan Shrestha'?'selected':''}>Partner: Rohan Shrestha (4.250 • 92% Rel)</option>
+              <option value="Bibek Thapa" ${logState.partner==='Bibek Thapa'?'selected':''}>Partner: Bibek Thapa (3.780 • 80% Rel)</option>
+              <option value="Anjali Tamang" ${logState.partner==='Anjali Tamang'?'selected':''}>Partner: Anjali Tamang (3.910 • 88% Rel)</option>
+            </select>
+          ` : ''}
+
+          <div style="font-size: 12px; font-weight: 800; color: var(--coral-loss); margin: 10px 0 6px 0;">
+            <i class="fa-solid fa-users-slash"></i> Team 2: Opponent(s)
+          </div>
+          <select class="input-field-clean" onchange="logState.op1 = this.value; render();">
+            <option value="Bibek Thapa" ${logState.op1==='Bibek Thapa'?'selected':''}>Opponent 1: Bibek Thapa (3.780 • 80% Rel)</option>
+            <option value="Anjali Tamang" ${logState.op1==='Anjali Tamang'?'selected':''}>Opponent 1: Anjali Tamang (3.910 • 88% Rel)</option>
+            <option value="Aayush Karki" ${logState.op1==='Aayush Karki'?'selected':''}>Opponent 1: Aayush Karki (4.410 • 95% Rel)</option>
+          </select>
+          ${logState.isDoubles ? `
+            <select class="input-field-clean" onchange="logState.op2 = this.value; render();">
+              <option value="Sujan Maharjan" ${logState.op2==='Sujan Maharjan'?'selected':''}>Opponent 2: Sujan Maharjan (2.920 • 60% Rel)</option>
+              <option value="Sneha Shakya" ${logState.op2==='Sneha Shakya'?'selected':''}>Opponent 2: Sneha Shakya (3.420 • 75% Rel)</option>
+            </select>
+          ` : ''}
+        </div>
+
+        <div class="white-card">
+          <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); margin-bottom: 12px; letter-spacing: 0.5px;">MATCH SCORES (BEST OF 3)</div>
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <span style="font-weight: 800; font-size: 13px; color: var(--text-slate);">Game 1</span>
+            <div>
+              <div class="stepper-control">
+                <button onclick="logState.g1_1=Math.max(0, logState.g1_1-1); render();">-</button>
+                <span style="color: var(--emerald-win);">${logState.g1_1}</span>
+                <button onclick="logState.g1_1++; render();">+</button>
+              </div>
+              <span style="margin: 0 6px; font-weight: 800; color: var(--text-muted);">:</span>
+              <div class="stepper-control">
+                <button onclick="logState.g1_2=Math.max(0, logState.g1_2-1); render();">-</button>
+                <span style="color: var(--coral-loss);">${logState.g1_2}</span>
+                <button onclick="logState.g1_2++; render();">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <span style="font-weight: 800; font-size: 13px; color: var(--text-slate);">Game 2</span>
+            <div>
+              <div class="stepper-control">
+                <button onclick="logState.g2_1=Math.max(0, logState.g2_1-1); render();">-</button>
+                <span style="color: var(--emerald-win);">${logState.g2_1}</span>
+                <button onclick="logState.g2_1++; render();">+</button>
+              </div>
+              <span style="margin: 0 6px; font-weight: 800; color: var(--text-muted);">:</span>
+              <div class="stepper-control">
+                <button onclick="logState.g2_2=Math.max(0, logState.g2_2-1); render();">-</button>
+                <span style="color: var(--coral-loss);">${logState.g2_2}</span>
+                <button onclick="logState.g2_2++; render();">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-weight: 800; font-size: 13px; color: var(--text-slate);">Game 3</span>
+            <div>
+              <div class="stepper-control">
+                <button onclick="logState.g3_1=Math.max(0, logState.g3_1-1); render();">-</button>
+                <span style="color: var(--emerald-win);">${logState.g3_1}</span>
+                <button onclick="logState.g3_1++; render();">+</button>
+              </div>
+              <span style="margin: 0 6px; font-weight: 800; color: var(--text-muted);">:</span>
+              <div class="stepper-control">
+                <button onclick="logState.g3_2=Math.max(0, logState.g3_2-1); render();">-</button>
+                <span style="color: var(--coral-loss);">${logState.g3_2}</span>
+                <button onclick="logState.g3_2++; render();">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5-Point Custom Algorithm Live Breakdown -->
+        <div class="white-card" style="padding: 14px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+            <div>
+              <div style="font-size: 13px; font-weight: 800; color: var(--text-slate);">Rating Delta Forecast</div>
+              <div style="font-size: 11px; color: var(--text-muted);">5-Point Dynamic Elo Engine</div>
+            </div>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 900; color: ${calc.delta >= 0 ? 'var(--emerald-win)' : 'var(--coral-loss)'}">
+              ${calc.delta > 0 ? '+' + calc.delta.toFixed(3) : calc.delta.toFixed(3)} SUPR
+            </span>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; padding-top: 10px; border-top: 1px solid var(--border-light); text-align: center; font-size: 10px;">
+            <div style="background: #F8FAFC; padding: 7px 4px; border-radius: 8px; border: 1px solid var(--border-light);">
+              <div style="color: var(--text-muted); font-weight: 600;">Win Chance</div>
+              <div style="font-weight: 800; color: var(--navy-dark); font-family: 'JetBrains Mono', monospace; font-size: 13px; margin-top: 2px;">${calc.expectedT1Prob}%</div>
+            </div>
+            <div style="background: #F8FAFC; padding: 7px 4px; border-radius: 8px; border: 1px solid var(--border-light);">
+              <div style="color: var(--text-muted); font-weight: 600;">PD Factor</div>
+              <div style="font-weight: 800; color: var(--navy-dark); font-family: 'JetBrains Mono', monospace; font-size: 13px; margin-top: 2px;">${calc.pdFactor}x</div>
+            </div>
+            <div style="background: #F8FAFC; padding: 7px 4px; border-radius: 8px; border: 1px solid var(--border-light);">
+              <div style="color: var(--text-muted); font-weight: 600;">Dynamic K</div>
+              <div style="font-weight: 800; color: var(--navy-dark); font-family: 'JetBrains Mono', monospace; font-size: 13px; margin-top: 2px;">${calc.dynamicK}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Clean Solid Button -->
+        <button class="btn-navy" onclick="submitMatch()">
+          <i class="fa-solid fa-paper-plane"></i> Submit & Generate Verification Code
+        </button>
+      `;
+    }
+
+    function submitMatch() {
+      const currentSets = [
+        { t1: logState.g1_1, t2: logState.g1_2 },
+        { t1: logState.g2_1, t2: logState.g2_2 },
+        { t1: logState.g3_1, t2: logState.g3_2 }
+      ];
+
+      const calc = calculateMatchEngine(
+        logState.isDoubles,
+        logState.partner,
+        logState.op1,
+        logState.op2,
+        currentSets
+      );
+
+      const code = 'NPR-' + Math.floor(100 + Math.random() * 900);
+      const newMatch = {
+        id: 'm_' + Date.now(),
+        code: code,
+        type: logState.isDoubles ? 'Doubles' : 'Singles',
+        date: 'Today',
+        venue: logState.venue,
+        team1: logState.isDoubles ? `Pratik Sharma & ${logState.partner}` : 'Pratik Sharma',
+        team2: logState.isDoubles ? `${logState.op1} & ${logState.op2}` : logState.op1,
+        winnerTeam: calc.winnerTeam,
+        sets: currentSets,
+        loggedBy: 'Pratik Sharma',
+        status: 'pending',
+        delta: calc.delta,
+        expectedProb: calc.expectedT1Prob,
+        pdFactor: calc.pdFactor
+      };
+      state.matches.unshift(newMatch);
+      showToast(`Match code ${code} logged with ${calc.delta > 0 ? '+' : ''}${calc.delta.toFixed(3)} SUPR forecast!`);
+      switchTab('verify', document.querySelectorAll('.nav-tab-item')[2]);
+    }
+
+    // 3. Verification Queue Screen
+    function renderVerificationQueue(container) {
+      const pending = state.matches.filter(m => m.status === 'pending');
+      const confirmed = state.matches.filter(m => m.status === 'confirmed');
+
+      container.innerHTML = `
+        <div style="position: relative; margin-bottom: 12px;">
+          <input type="text" class="input-field-clean" placeholder="Lookup 6-char Match Code (e.g. NPR-834)..." onkeyup="filterQueue(this.value)" style="margin-bottom: 0;">
+        </div>
+
+        <div style="font-size: 13px; font-weight: 800; margin-bottom: 10px; color: var(--text-slate);">
+          <i class="fa-solid fa-clock-rotate-left" style="color: var(--warning-amber);"></i> Awaiting Opponent Review (${pending.length})
+        </div>
+
+        ${pending.length === 0 ? '<div class="white-card" style="text-align: center; color: var(--text-muted); font-size: 13px;">No pending matches waiting for review.</div>' : ''}
+
+        ${pending.map(m => `
+          <div class="scorecard" style="border-left: 3px solid var(--warning-amber);">
+            <div class="scorecard-meta-bar">
+              <span class="meta-venue"><i class="fa-solid fa-map-pin" style="color: var(--navy-dark); font-size: 10px;"></i> ${m.venue.split('(')[0]}</span>
+              <span class="meta-code">#${m.code}</span>
+            </div>
+            <div style="font-size: 14px; font-weight: 800; color: var(--text-slate); margin-bottom: 6px;">
+              ${m.team1} vs ${m.team2}
+            </div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 800; color: var(--navy-dark); margin-bottom: 8px;">
+              ${m.sets.map(s => `${s.t1}-${s.t2}`).join(', ')}
+            </div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">Logged by ${m.loggedBy}</div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+              <button class="btn-outline-navy" style="color: var(--coral-loss); border-color: #FECACA;" onclick="disputeMatch('${m.id}')">
+                <i class="fa-solid fa-xmark"></i> Dispute
+              </button>
+              <button class="btn-navy" style="padding: 10px 16px;" onclick="confirmMatch('${m.id}')">
+                <i class="fa-solid fa-check"></i> Confirm Score
+              </button>
+            </div>
+          </div>
+        `).join('')}
+
+        <div style="font-size: 13px; font-weight: 800; margin: 16px 0 10px 0; color: var(--text-slate);">
+          <i class="fa-solid fa-circle-check" style="color: var(--emerald-win);"></i> Officially Confirmed (${confirmed.length})
+        </div>
+        ${confirmed.map(m => `
+          <div class="scorecard" style="padding: 12px 14px; margin-bottom: 8px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-weight: 800; font-size: 13px; color: var(--text-slate);">${m.team1} vs ${m.team2}</span>
+              <span class="rating-delta-chip delta-win-chip">+${m.delta.toFixed(3)} SUPR</span>
+            </div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">
+              ${m.venue.split('(')[0]} • ${m.sets.map(s => `${s.t1}-${s.t2}`).join(', ')}
+            </div>
+          </div>
+        `).join('')}
+      `;
+    }
+
+    function confirmMatch(id) {
+      const match = state.matches.find(m => m.id === id);
+      if (!match) return;
+      match.status = 'confirmed';
+
+      const isDoubles = match.type === 'Doubles';
+      if (isDoubles) {
+        state.user.doublesRating = +(state.user.doublesRating + match.delta).toFixed(3);
+      } else {
+        state.user.singlesRating = +(state.user.singlesRating + match.delta).toFixed(3);
+      }
+
+      state.user.matchesPlayed++;
+      const isWinner = match.winnerTeam === 1;
+      if (isWinner) {
+        state.user.wins++;
+      } else {
+        state.user.losses++;
+      }
+
+      state.user.reliability = calculateNewReliability(state.user.matchesPlayed);
+      state.user.history.push({
+        date: 'Today',
+        rating: isDoubles ? state.user.doublesRating : state.user.singlesRating,
+        delta: match.delta
+      });
+      showToast(`Match ${match.code} confirmed! ${isDoubles ? 'Doubles' : 'Singles'} rating updated to ${(isDoubles ? state.user.doublesRating : state.user.singlesRating).toFixed(3)}.`);
+      render();
+    }
+
+    function disputeMatch(id) {
+      state.matches = state.matches.filter(m => m.id !== id);
+      showToast('Match marked as Disputed and flagged for arbitration.');
+      render();
+    }
+
+    // 4. SUPR RANKINGS
+    let lbFilter = 'All Nepal';
+    function renderLeaderboard(container) {
+      const categories = ['All Nepal', 'Kathmandu', 'Pokhara', 'Tiptoe Club', 'Boudha Arena', 'Dunkmandu'];
+      
+      const allList = [
+        ...state.players,
+        { id: state.user.id, name: state.user.name, city: state.user.city, hub: state.user.homeHub, singles: state.user.singlesRating, doubles: state.user.doublesRating, rel: state.user.reliability, matches: state.user.matchesPlayed, wins: state.user.wins, losses: state.user.losses }
+      ];
+
+      const filtered = allList.filter(p => {
+        if (lbFilter === 'All Nepal') return true;
+        if (lbFilter === 'Kathmandu') return p.city === 'Kathmandu' || p.city === 'Lalitpur';
+        if (lbFilter === 'Pokhara') return p.city === 'Pokhara';
+        return p.hub.includes(lbFilter.split(' ')[0]);
+      }).sort((a, b) => (state.isDoubles ? b.doubles : b.singles) - (state.isDoubles ? a.doubles : a.singles));
+
+      container.innerHTML = `
+        <!-- Filter Tabs -->
+        <div class="chip-scroll">
+          ${categories.map(c => `
+            <div class="chip-white ${lbFilter === c ? 'active' : ''}" onclick="lbFilter='${c}'; render();">${c}</div>
+          `).join('')}
+        </div>
+
+        <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); font-weight: 700; padding: 0 8px 10px 8px; letter-spacing: 0.5px;">
+          <span>PLAYER</span>
+          <span>${state.isDoubles ? 'DOUBLES' : 'SINGLES'} SUPR</span>
+        </div>
+
+        <div class="leaderboard-table">
+          ${filtered.map((p, idx) => {
+            const rank = idx + 1;
+            const isUser = p.id === state.user.id;
+            const rating = state.isDoubles ? p.doubles : p.singles;
+            const rankStr = rank < 10 ? '0' + rank : rank;
+
+            return `
+              <div class="rank-row ${isUser ? 'current-user' : ''}">
+                <div class="rank-left-section">
+                  <div class="rank-pos">${rankStr}</div>
+                  <div class="player-details">
+                    <div class="player-name-text">
+                      ${p.name}
+                      ${isUser ? '<span class="you-pill">YOU</span>' : ''}
+                    </div>
+                    <div class="player-subline">
+                      ${p.city} • ${p.hub.split('(')[0]}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="rank-right-section">
+                  <div class="rating-display-val">${rating.toFixed(3)}</div>
+                  <div class="reliability-stat ${p.rel >= 60 ? 'official' : ''}">
+                    ${p.rel}% Rel • ${p.wins}W-${p.losses}L
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
+    }
+
+    // 5. Courts Directory Screen
+    function renderCourts(container) {
+      container.innerHTML = `
+        <div style="font-size: 13px; font-weight: 800; margin-bottom: 12px; color: var(--text-slate);">
+          <i class="fa-solid fa-location-dot" style="color: var(--navy-dark)"></i> Courts & Clubs in Nepal
+        </div>
+
+        ${state.venues.map(v => {
+          const isHere = state.checkedInVenueId === v.id;
+          return `
+            <div class="white-card" style="${isHere ? 'border-color: var(--navy-dark);' : ''}">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px;">
+                <div>
+                  <div style="font-size: 15px; font-weight: 800; color: var(--text-slate);">${v.name}</div>
+                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 1px;"><i class="fa-solid fa-map-pin" style="color: var(--navy-dark)"></i> ${v.location}</div>
+                </div>
+                ${isHere ? '<span style="background: var(--navy-dark); color: #fff; font-size: 9px; font-weight: 900; padding: 2px 7px; border-radius: 4px;">CHECKED IN</span>' : ''}
+              </div>
+
+              <div style="display: flex; gap: 8px; margin: 10px 0;">
+                <span style="background: #F1F5F9; font-size: 11px; padding: 4px 8px; border-radius: 6px; font-weight: 700; color: var(--text-slate);">
+                  <i class="fa-solid fa-table-tennis-paddle-ball" style="color: var(--navy-dark)"></i> ${v.courts} Courts
+                </span>
+                <span style="background: var(--emerald-bg); font-size: 11px; padding: 4px 8px; border-radius: 6px; color: var(--emerald-win); font-weight: 700;">
+                  <i class="fa-solid fa-circle" style="font-size: 7px; margin-right: 3px;"></i>${v.active + (isHere ? 1 : 0)} Active Players
+                </span>
+              </div>
+
+              <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">
+                <i class="fa-solid fa-clock"></i> ${v.hours} • ${v.surface}
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                <button class="btn-outline-navy" onclick="showToast('Calling ${v.phone}...')">
+                  <i class="fa-solid fa-phone"></i> Inquire / Book
+                </button>
+                <button class="btn-navy" style="padding: 10px;" onclick="toggleCheckIn('${v.id}', '${v.name}')">
+                  <i class="fa-solid ${isHere ? 'fa-arrow-right-from-bracket' : 'fa-location-crosshairs'}"></i> ${isHere ? 'Check Out' : 'Check In'}
+                </button>
+              </div>
+            </div>
+          `;
+        }).join('')}
+      `;
+    }
+
+    function toggleCheckIn(id, name) {
+      if (state.checkedInVenueId === id) {
+        state.checkedInVenueId = null;
+        showToast(`Checked out from ${name}`);
+      } else {
+        state.checkedInVenueId = id;
+        showToast(`Checked into ${name}! Marked visible on court.`);
+      }
+      render();
+    }
+
+    function openEditModal() {
+      const newName = prompt('Enter Player Name:', state.user.name);
+      if (newName) {
+        state.user.name = newName;
+        render();
+        showToast('Profile updated!');
+      }
+    }
+
+    // Initialize
+    render();
+  </script>
+</body>
+</html>
