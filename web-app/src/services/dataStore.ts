@@ -1,7 +1,7 @@
 import type { UserProfile, Player, Match, Venue } from '../types';
 
 // MongoDB-ready data layer with localStorage caching.
-const STORAGE_KEY = 'supr_dupr_state_v2';
+const STORAGE_KEY = 'supr_dupr_state_v4';
 
 export interface AppState {
   user: UserProfile;
@@ -64,9 +64,9 @@ export function getDefaultState(): AppState {
         id: 'v1',
         name: 'The Pickleball Nepal',
         location: 'Boudha, Kathmandu',
-        courts: 4,
-        surface: 'Outdoor Regulation Cushion',
-        hours: '06:00 AM - 09:30 PM',
+        courts: 3,
+        surface: 'Outdoor Pro Cushion Acrylic',
+        hours: '06:00 AM - 10:00 PM',
         phone: '+9779801988899',
         instagram: 'https://www.instagram.com/thepickleballnepal/',
         instagramHandle: '@thepickleballnepal',
@@ -74,10 +74,34 @@ export function getDefaultState(): AppState {
       },
       {
         id: 'v2',
+        name: 'PickleGo Nepal',
+        location: 'Boudha, Kathmandu',
+        courts: 3,
+        surface: 'Dedicated Acrylic Hardcourt',
+        hours: '06:00 AM - 10:00 PM',
+        phone: '+9779828731711',
+        instagram: 'https://www.instagram.com/picklego.nepal/',
+        instagramHandle: '@picklego.nepal',
+        whatsapp: '+9779828731711'
+      },
+      {
+        id: 'v3',
+        name: 'BoxArena',
+        location: 'Tangal, Kathmandu',
+        courts: 1,
+        surface: 'Indoor Covered Multi-Sport (Non-Marking)',
+        hours: '06:00 AM - 10:00 PM',
+        phone: '+9779700426645',
+        instagram: 'https://www.instagram.com/boxarena.ktm/',
+        instagramHandle: '@boxarena.ktm',
+        whatsapp: '+9779700426645'
+      },
+      {
+        id: 'v4',
         name: 'The Flash Pickleball Nepal',
         location: 'Sukedhara / Naxal, Kathmandu',
-        courts: 4,
-        surface: 'Pro Acrylic Outdoor Hardcourt',
+        courts: 2,
+        surface: 'Pro Tournament Hardcourt',
         hours: '06:00 AM - 10:00 PM',
         phone: '+9779813000555',
         instagram: 'https://www.instagram.com/theflashpickleball/',
@@ -85,61 +109,52 @@ export function getDefaultState(): AppState {
         whatsapp: '+9779813000555'
       },
       {
-        id: 'v3',
+        id: 'v5',
+        name: 'Pick & Sip',
+        location: 'Kamal Pokhari / Hattisar, Kathmandu',
+        courts: 2,
+        surface: 'Rooftop Sports Court & Lounge',
+        hours: '07:00 AM - 10:00 PM',
+        phone: '+9779818286165',
+        instagram: 'https://www.instagram.com/pickandsip.np/',
+        instagramHandle: '@pickandsip.np',
+        whatsapp: '+9779818286165'
+      },
+      {
+        id: 'v6',
         name: 'Picklepoint Nepal',
-        location: 'Sitakwa Marg, Lalitpur',
-        courts: 3,
+        location: 'Sitakwa Marg, Kathmandu',
+        courts: 2,
         surface: 'Hardcourt with Night Floodlights',
-        hours: '06:30 AM - 09:00 PM',
+        hours: '06:00 AM - 10:00 PM',
         phone: '+9779841234567',
         instagram: 'https://www.instagram.com/picklepoint.np/',
         instagramHandle: '@picklepoint.np',
         whatsapp: '+9779841234567'
       },
       {
-        id: 'v4',
-        name: 'BoxArena',
-        location: 'Tangal, Kathmandu',
-        courts: 2,
-        surface: 'Indoor Covered Multi-Sport',
-        hours: '06:00 AM - 10:00 PM',
-        phone: '+9779802345678',
-        instagram: 'https://www.instagram.com/boxarena.np/',
-        instagramHandle: '@boxarena.np'
-      },
-      {
-        id: 'v5',
-        name: 'Pick & Sip',
-        location: 'Kamal Pokhari / Hattisar, Kathmandu',
-        courts: 2,
-        surface: 'Rooftop Sports Turf & Lounge',
-        hours: '07:00 AM - 10:00 PM',
-        phone: '+9779851122334',
-        instagram: 'https://www.instagram.com/pickandsip.np/',
-        instagramHandle: '@pickandsip.np'
-      },
-      {
-        id: 'v6',
+        id: 'v7',
         name: 'DinkHaus (Meerkat Park)',
         location: 'Street-17, Lakeside, Pokhara',
-        courts: 3,
+        courts: 1,
         surface: 'Lakeside Scenic Regulation Court',
         hours: '06:30 AM - 09:00 PM',
         phone: '+9779861002233',
-        instagram: 'https://www.instagram.com/meerkat_park/',
-        instagramHandle: '@meerkat_park',
+        instagram: 'https://www.instagram.com/dinkhaus.np/',
+        instagramHandle: '@dinkhaus.np',
         whatsapp: '+9779861002233'
       },
       {
-        id: 'v7',
-        name: 'ANLTA Complex (Tennis & Pickleball)',
-        location: 'Satdobato, Lalitpur',
-        courts: 6,
-        surface: 'Championship Outdoor Hardcourt',
-        hours: '06:00 AM - 08:30 PM',
-        phone: '+977015522222',
-        instagram: 'https://www.instagram.com/pickleballassociationnepal/',
-        instagramHandle: '@pickleballassociationnepal'
+        id: 'v8',
+        name: 'Alley Oops',
+        location: 'Sukedhara, Kathmandu',
+        courts: 1,
+        surface: 'Indoor Covered Court',
+        hours: '06:00 AM - 09:30 PM',
+        phone: '+9779801009988',
+        instagram: 'https://www.instagram.com/alleyoopsnepal/',
+        instagramHandle: '@alleyoopsnepal',
+        whatsapp: '+9779801009988'
       }
     ]
   };

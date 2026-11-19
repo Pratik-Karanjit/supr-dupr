@@ -51,17 +51,21 @@ export function CourtsScreen({ venues }: Props) {
                 </div>
               </div>
 
-              <div style={{ display: 'flex', gap: 8, margin: '12px 0', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', gap: 8, margin: '12px 0 8px 0', flexWrap: 'wrap' }}>
                 <span style={{ background: '#F1F5F9', fontSize: 11, padding: '4px 9px', borderRadius: 6, fontWeight: 700, color: 'var(--text-slate)' }}>
-                  {v.courts} Courts
+                  {v.courts} {v.courts === 1 ? 'Court' : 'Courts'}
                 </span>
                 <span style={{ background: '#F8FAFC', border: '1px solid var(--border-subtle)', fontSize: 11, padding: '4px 9px', borderRadius: 6, fontWeight: 700, color: 'var(--navy-dark)' }}>
                   {v.surface}
                 </span>
               </div>
 
-              <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 16 }}>
+              <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 6 }}>
                 🕒 {v.hours}
+              </div>
+
+              <div style={{ fontSize: 12, color: 'var(--navy-dark)', fontWeight: 700, marginBottom: 14, display: 'flex', alignItems: 'center', gap: 5 }}>
+                <InstagramIcon size={13} /> {v.instagramHandle}
               </div>
             </div>
 

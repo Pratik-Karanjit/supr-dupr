@@ -922,13 +922,14 @@
         }
       ],
       venues: [
-        { id: 'v1', name: 'The Pickleball Nepal', location: 'Boudha, Kathmandu', courts: 4, surface: 'Outdoor Regulation Cushion', hours: '06:00 AM - 09:30 PM', phone: '+9779801988899', instagram: 'https://www.instagram.com/thepickleballnepal/', handle: '@thepickleballnepal' },
-        { id: 'v2', name: 'The Flash Pickleball Nepal', location: 'Sukedhara / Naxal, Kathmandu', courts: 4, surface: 'Pro Acrylic Hardcourt', hours: '06:00 AM - 10:00 PM', phone: '+9779813000555', instagram: 'https://www.instagram.com/theflashpickleball/', handle: '@theflashpickleball' },
-        { id: 'v3', name: 'Picklepoint Nepal', location: 'Sitakwa Marg, Lalitpur', courts: 3, surface: 'Hardcourt with Night Lights', hours: '06:30 AM - 09:00 PM', phone: '+9779841234567', instagram: 'https://www.instagram.com/picklepoint.np/', handle: '@picklepoint.np' },
-        { id: 'v4', name: 'BoxArena', location: 'Tangal, Kathmandu', courts: 2, surface: 'Indoor Covered Multi-Sport', hours: '06:00 AM - 10:00 PM', phone: '+9779802345678', instagram: 'https://www.instagram.com/boxarena.np/', handle: '@boxarena.np' },
-        { id: 'v5', name: 'Pick & Sip', location: 'Kamal Pokhari / Hattisar, Kathmandu', courts: 2, surface: 'Rooftop Sports Turf & Lounge', hours: '07:00 AM - 10:00 PM', phone: '+9779851122334', instagram: 'https://www.instagram.com/pickandsip.np/', handle: '@pickandsip.np' },
-        { id: 'v6', name: 'DinkHaus (Meerkat Park)', location: 'Street-17, Lakeside, Pokhara', courts: 3, surface: 'Lakeside Scenic Regulation Court', hours: '06:30 AM - 09:00 PM', phone: '+9779861002233', instagram: 'https://www.instagram.com/meerkat_park/', handle: '@meerkat_park' },
-        { id: 'v7', name: 'ANLTA Complex (Tennis & Pickleball)', location: 'Satdobato, Lalitpur', courts: 6, surface: 'Championship Outdoor Hardcourt', hours: '06:00 AM - 08:30 PM', phone: '+977015522222', instagram: 'https://www.instagram.com/pickleballassociationnepal/', handle: '@pickleballassociationnepal' }
+        { id: 'v1', name: 'The Pickleball Nepal', location: 'Boudha, Kathmandu', courts: 3, surface: 'Outdoor Pro Cushion Acrylic', hours: '06:00 AM - 10:00 PM', phone: '+9779801988899', instagram: 'https://www.instagram.com/thepickleballnepal/', handle: '@thepickleballnepal' },
+        { id: 'v2', name: 'PickleGo Nepal', location: 'Boudha, Kathmandu', courts: 3, surface: 'Dedicated Acrylic Hardcourt', hours: '06:00 AM - 10:00 PM', phone: '+9779828731711', instagram: 'https://www.instagram.com/picklego.nepal/', handle: '@picklego.nepal' },
+        { id: 'v3', name: 'BoxArena', location: 'Tangal, Kathmandu', courts: 1, surface: 'Indoor Covered Multi-Sport (Non-Marking)', hours: '06:00 AM - 10:00 PM', phone: '+9779700426645', instagram: 'https://www.instagram.com/boxarena.ktm/', handle: '@boxarena.ktm' },
+        { id: 'v4', name: 'The Flash Pickleball Nepal', location: 'Sukedhara / Naxal, Kathmandu', courts: 2, surface: 'Pro Tournament Hardcourt', hours: '06:00 AM - 10:00 PM', phone: '+9779813000555', instagram: 'https://www.instagram.com/theflashpickleball/', handle: '@theflashpickleball' },
+        { id: 'v5', name: 'Pick & Sip', location: 'Kamal Pokhari / Hattisar, Kathmandu', courts: 2, surface: 'Rooftop Sports Court & Lounge', hours: '07:00 AM - 10:00 PM', phone: '+9779818286165', instagram: 'https://www.instagram.com/pickandsip.np/', handle: '@pickandsip.np' },
+        { id: 'v6', name: 'Picklepoint Nepal', location: 'Sitakwa Marg, Kathmandu', courts: 2, surface: 'Hardcourt with Night Floodlights', hours: '06:00 AM - 10:00 PM', phone: '+9779841234567', instagram: 'https://www.instagram.com/picklepoint.np/', handle: '@picklepoint.np' },
+        { id: 'v7', name: 'DinkHaus (Meerkat Park)', location: 'Street-17, Lakeside, Pokhara', courts: 1, surface: 'Lakeside Scenic Regulation Court', hours: '06:30 AM - 09:00 PM', phone: '+9779861002233', instagram: 'https://www.instagram.com/dinkhaus.np/', handle: '@dinkhaus.np' },
+        { id: 'v8', name: 'Alley Oops', location: 'Sukedhara, Kathmandu', courts: 1, surface: 'Indoor Covered Court', hours: '06:00 AM - 09:30 PM', phone: '+9779801009988', instagram: 'https://www.instagram.com/alleyoopsnepal/', handle: '@alleyoopsnepal' }
       ]
     };
 
@@ -1264,7 +1265,7 @@
       partner: 'Rohan Shrestha',
       op1: 'Bibek Thapa',
       op2: 'Sujan Maharjan',
-      venue: 'Tiptoe Pickleball Club (Sanepa)',
+      venue: 'The Pickleball Nepal (Boudha)',
       g1_1: 11, g1_2: 8,
       g2_1: 9, g2_2: 11,
       g3_1: 11, g3_2: 7
@@ -1549,7 +1550,7 @@
     // 4. SUPR RANKINGS
     let lbFilter = 'All Nepal';
     function renderLeaderboard(container) {
-      const categories = ['All Nepal', 'Kathmandu', 'Pokhara', 'Tiptoe Club', 'Boudha Arena', 'Dunkmandu'];
+      const categories = ['All Nepal', 'Kathmandu', 'Pokhara', 'Boudha', 'Sukedhara', 'Tangal'];
       
       const allList = [
         ...state.players,
@@ -1629,17 +1630,21 @@
               </div>
             </div>
 
-            <div style="display: flex; gap: 8px; margin: 10px 0;">
+            <div style="display: flex; gap: 8px; margin: 10px 0 6px 0;">
               <span style="background: #F1F5F9; font-size: 11px; padding: 4px 8px; border-radius: 6px; font-weight: 700; color: var(--text-slate);">
-                <i class="fa-solid fa-table-tennis-paddle-ball" style="color: var(--navy-dark)"></i> ${v.courts} Courts
+                <i class="fa-solid fa-table-tennis-paddle-ball" style="color: var(--navy-dark)"></i> ${v.courts} ${v.courts === 1 ? 'Court' : 'Courts'}
               </span>
               <span style="background: #F8FAFC; border: 1px solid var(--border-subtle); font-size: 11px; padding: 4px 8px; border-radius: 6px; color: var(--navy-dark); font-weight: 700;">
                 ${v.surface}
               </span>
             </div>
 
-            <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">
+            <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 6px;">
               <i class="fa-solid fa-clock"></i> ${v.hours}
+            </div>
+
+            <div style="font-size: 11px; color: var(--navy-dark); font-weight: 700; margin-bottom: 12px;">
+              <i class="fa-brands fa-instagram"></i> ${v.handle}
             </div>
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">

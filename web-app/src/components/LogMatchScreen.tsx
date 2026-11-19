@@ -5,12 +5,13 @@ import { calculateMatchEngine } from '../services/ratingEngine';
 
 const VERIFIED_VENUES = [
   'The Pickleball Nepal (Boudha)',
-  'The Flash Pickleball Nepal (Sukedhara / Naxal)',
-  'Picklepoint Nepal (Sitakwa Marg, Lalitpur)',
+  'PickleGo Nepal (Boudha)',
   'BoxArena (Tangal)',
+  'The Flash Pickleball Nepal (Sukedhara / Naxal)',
   'Pick & Sip (Kamal Pokhari)',
+  'Picklepoint Nepal (Sitakwa Marg)',
   'DinkHaus (Meerkat Park, Pokhara)',
-  'ANLTA Complex (Satdobato, Lalitpur)'
+  'Alley Oops (Sukedhara)'
 ];
 
 interface Props {
