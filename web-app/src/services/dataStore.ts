@@ -1,7 +1,7 @@
 import type { UserProfile, Player, Match, Venue } from '../types';
 
 // MongoDB-ready data layer with localStorage caching.
-const STORAGE_KEY = 'supr_dupr_state_v4';
+const STORAGE_KEY = 'supr_dupr_state_v5';
 
 export interface AppState {
   user: UserProfile;
@@ -86,6 +86,42 @@ export function getDefaultState(): AppState {
       },
       {
         id: 'v3',
+        name: 'Serve & Sip (Pick & Sip)',
+        location: 'Kamal Pokhari, Hattisar, Kathmandu',
+        courts: 2,
+        surface: 'Rooftop Sports Court & Lounge',
+        hours: '06:00 AM - 10:00 PM',
+        phone: '+9779818286165',
+        instagram: 'https://www.instagram.com/pickandsip.np/',
+        instagramHandle: '@pickandsip.np',
+        whatsapp: '+9779818286165'
+      },
+      {
+        id: 'v4',
+        name: 'RALLY Pickleball & Courtside Cafe',
+        location: 'Pepsi Cola Town Planning, Bhaktapur',
+        courts: 2,
+        surface: '8-Layer Pro Cushion Hardcourt',
+        hours: '06:00 AM - 09:00 PM',
+        phone: '+9779705111999',
+        instagram: 'https://www.instagram.com/rallycourtside/',
+        instagramHandle: '@rallycourtside',
+        whatsapp: '+9779705111999'
+      },
+      {
+        id: 'v5',
+        name: 'Match and Meals',
+        location: 'Sanepa / Bijaynagar Marg, Lalitpur',
+        courts: 2,
+        surface: 'Outdoor Hardcourt & Social Hub',
+        hours: '06:00 AM - 10:00 PM',
+        phone: '+9779703932260',
+        instagram: 'https://www.instagram.com/matchandmeals/',
+        instagramHandle: '@matchandmeals',
+        whatsapp: '+9779703932260'
+      },
+      {
+        id: 'v6',
         name: 'BoxArena',
         location: 'Tangal, Kathmandu',
         courts: 1,
@@ -97,7 +133,7 @@ export function getDefaultState(): AppState {
         whatsapp: '+9779700426645'
       },
       {
-        id: 'v4',
+        id: 'v7',
         name: 'The Flash Pickleball Nepal',
         location: 'Sukedhara / Naxal, Kathmandu',
         courts: 2,
@@ -109,19 +145,54 @@ export function getDefaultState(): AppState {
         whatsapp: '+9779813000555'
       },
       {
-        id: 'v5',
-        name: 'Pick & Sip',
-        location: 'Kamal Pokhari / Hattisar, Kathmandu',
+        id: 'v8',
+        name: 'KickOff Arena',
+        location: 'Nagarjun (Sitapaila), Kathmandu',
         courts: 2,
-        surface: 'Rooftop Sports Court & Lounge',
-        hours: '07:00 AM - 10:00 PM',
-        phone: '+9779818286165',
-        instagram: 'https://www.instagram.com/pickandsip.np/',
-        instagramHandle: '@pickandsip.np',
-        whatsapp: '+9779818286165'
+        surface: 'Outdoor Pro Multi-Sport Hardcourt',
+        hours: '06:00 AM - 10:00 PM',
+        phone: '+9779869392979',
+        instagram: 'https://www.instagram.com/thekickoffarena/',
+        instagramHandle: '@thekickoffarena',
+        whatsapp: '+9779869392979'
       },
       {
-        id: 'v6',
+        id: 'v9',
+        name: 'Smash Pickleball Nepal',
+        location: 'Kathmandu',
+        courts: 2,
+        surface: 'Acrylic Hardcourt (UV Glow Night Play)',
+        hours: '06:00 AM - 10:00 PM',
+        phone: '+9779714556515',
+        instagram: 'https://www.instagram.com/smashpickleballnepal/',
+        instagramHandle: '@smashpickleballnepal',
+        whatsapp: '+9779714556515'
+      },
+      {
+        id: 'v10',
+        name: 'Hardik Fitness Club & Pickleball',
+        location: 'Pulchowk, Lalitpur',
+        courts: 1,
+        surface: 'Indoor Multi-Sport Hardcourt',
+        hours: '06:00 AM - 09:00 PM',
+        phone: '+977015522068',
+        instagram: 'https://www.instagram.com/hardikfitnessclub/',
+        instagramHandle: '@hardikfitnessclub'
+      },
+      {
+        id: 'v11',
+        name: 'Turf Park',
+        location: 'Dholahiti, Lalitpur',
+        courts: 1,
+        surface: 'Multi-Sport Turf Facility',
+        hours: '06:00 AM - 09:00 PM',
+        phone: '+9779741713775',
+        instagram: 'https://www.instagram.com/turfparknepal/',
+        instagramHandle: '@turfparknepal',
+        whatsapp: '+9779741713775'
+      },
+      {
+        id: 'v12',
         name: 'Picklepoint Nepal',
         location: 'Sitakwa Marg, Kathmandu',
         courts: 2,
@@ -133,19 +204,29 @@ export function getDefaultState(): AppState {
         whatsapp: '+9779841234567'
       },
       {
-        id: 'v7',
-        name: 'DinkHaus (Meerkat Park)',
-        location: 'Street-17, Lakeside, Pokhara',
-        courts: 1,
-        surface: 'Lakeside Scenic Regulation Court',
-        hours: '06:30 AM - 09:00 PM',
-        phone: '+9779861002233',
-        instagram: 'https://www.instagram.com/dinkhaus.np/',
-        instagramHandle: '@dinkhaus.np',
-        whatsapp: '+9779861002233'
+        id: 'v13',
+        name: 'Point11 Pickleball',
+        location: 'Kathmandu',
+        courts: 2,
+        surface: 'Regulation Pro Acrylic Hardcourt',
+        hours: '06:00 AM - 10:00 PM',
+        phone: '+9779851000011',
+        instagram: 'https://www.instagram.com/point11pickleball/',
+        instagramHandle: '@point11pickleball'
       },
       {
-        id: 'v8',
+        id: 'v14',
+        name: 'Picklepark',
+        location: 'Kathmandu Valley',
+        courts: 2,
+        surface: 'Dedicated Acrylic Hardcourt',
+        hours: '06:00 AM - 09:30 PM',
+        phone: '+9779801239988',
+        instagram: 'https://www.instagram.com/pickleparknepal/',
+        instagramHandle: '@pickleparknepal'
+      },
+      {
+        id: 'v15',
         name: 'Alley Oops',
         location: 'Sukedhara, Kathmandu',
         courts: 1,
@@ -155,6 +236,18 @@ export function getDefaultState(): AppState {
         instagram: 'https://www.instagram.com/alleyoopsnepal/',
         instagramHandle: '@alleyoopsnepal',
         whatsapp: '+9779801009988'
+      },
+      {
+        id: 'v16',
+        name: 'DinkHaus (Meerkat Park)',
+        location: 'Street-17, Lakeside, Pokhara',
+        courts: 1,
+        surface: 'Lakeside Scenic Regulation Court',
+        hours: '06:30 AM - 09:00 PM',
+        phone: '+9779861002233',
+        instagram: 'https://www.instagram.com/dinkhaus.np/',
+        instagramHandle: '@dinkhaus.np',
+        whatsapp: '+9779861002233'
       }
     ]
   };

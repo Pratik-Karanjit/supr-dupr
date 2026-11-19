@@ -6,12 +6,20 @@ import { calculateMatchEngine } from '../services/ratingEngine';
 const VERIFIED_VENUES = [
   'The Pickleball Nepal (Boudha)',
   'PickleGo Nepal (Boudha)',
+  'Serve & Sip (Kamal Pokhari)',
+  'RALLY Pickleball & Courtside Cafe (Bhaktapur)',
+  'Match and Meals (Sanepa)',
   'BoxArena (Tangal)',
   'The Flash Pickleball Nepal (Sukedhara / Naxal)',
-  'Pick & Sip (Kamal Pokhari)',
+  'KickOff Arena (Sitapaila)',
+  'Smash Pickleball Nepal (Kathmandu)',
+  'Hardik Fitness Club & Pickleball (Pulchowk)',
+  'Turf Park (Dholahiti)',
   'Picklepoint Nepal (Sitakwa Marg)',
-  'DinkHaus (Meerkat Park, Pokhara)',
-  'Alley Oops (Sukedhara)'
+  'Point11 Pickleball (Kathmandu)',
+  'Picklepark (Kathmandu Valley)',
+  'Alley Oops (Sukedhara)',
+  'DinkHaus (Meerkat Park, Pokhara)'
 ];
 
 interface Props {
