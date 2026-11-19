@@ -1,7 +1,7 @@
 import type { UserProfile, Player, Match, Venue } from '../types';
 
 // MongoDB-ready data layer with localStorage caching.
-const STORAGE_KEY = 'supr_dupr_state_v5';
+const STORAGE_KEY = 'supr_dupr_state_v6';
 
 export interface AppState {
   user: UserProfile;
@@ -86,30 +86,89 @@ export function getDefaultState(): AppState {
       },
       {
         id: 'v3',
-        name: 'Serve & Sip (Pick & Sip)',
-        location: 'Kamal Pokhari, Hattisar, Kathmandu',
+        name: 'Pick & Sip',
+        location: 'Kamal Pokhari / Hattisar, Kathmandu',
         courts: 2,
         surface: 'Rooftop Sports Court & Lounge',
         hours: '06:00 AM - 10:00 PM',
         phone: '+9779818286165',
-        instagram: 'https://www.instagram.com/pickandsip.np/',
-        instagramHandle: '@pickandsip.np',
+        instagram: 'https://www.instagram.com/pickandsip.nepal/',
+        instagramHandle: '@pickandsip.nepal',
         whatsapp: '+9779818286165'
       },
       {
         id: 'v4',
+        name: 'Serve & Sip Pickleball',
+        location: 'Kamal Pokhari, Kathmandu',
+        courts: 2,
+        surface: 'Dedicated Outdoor Hardcourt',
+        hours: '06:00 AM - 10:00 PM',
+        phone: '+9779818286165',
+        instagram: 'https://www.instagram.com/serveandsippickleball/',
+        instagramHandle: '@serveandsippickleball',
+        whatsapp: '+9779818286165'
+      },
+      {
+        id: 'v5',
         name: 'RALLY Pickleball & Courtside Cafe',
         location: 'Pepsi Cola Town Planning, Bhaktapur',
         courts: 2,
         surface: '8-Layer Pro Cushion Hardcourt',
-        hours: '06:00 AM - 09:00 PM',
+        hours: 'Coming Soon • Launching 2026',
         phone: '+9779705111999',
         instagram: 'https://www.instagram.com/rallycourtside/',
         instagramHandle: '@rallycourtside',
-        whatsapp: '+9779705111999'
+        whatsapp: '+9779705111999',
+        comingSoon: true
       },
       {
-        id: 'v5',
+        id: 'v6',
+        name: 'KickOff Arena',
+        location: 'Nagarjun (Sitapaila), Kathmandu',
+        courts: 2,
+        surface: 'Outdoor Pro Multi-Sport Hardcourt',
+        hours: '06:00 AM - 10:00 PM',
+        phone: '+9779869392979',
+        instagram: 'https://www.instagram.com/kickoffarena_ktm/',
+        instagramHandle: '@kickoffarena_ktm',
+        whatsapp: '+9779869392979'
+      },
+      {
+        id: 'v7',
+        name: 'Smash Pickleball Nepal',
+        location: 'Kathmandu',
+        courts: 2,
+        surface: 'Acrylic Hardcourt (UV Glow Night Play)',
+        hours: '06:00 AM - 10:00 PM',
+        phone: '+9779714556515',
+        instagram: 'https://www.instagram.com/smashpickleball.nepal/',
+        instagramHandle: '@smashpickleball.nepal',
+        whatsapp: '+9779714556515'
+      },
+      {
+        id: 'v8',
+        name: 'Point 11 Pickleball',
+        location: 'Kathmandu',
+        courts: 2,
+        surface: 'Regulation Pro Acrylic Hardcourt',
+        hours: '06:00 AM - 10:00 PM',
+        phone: '+9779851000011',
+        instagram: 'https://www.instagram.com/point11.pickleball/',
+        instagramHandle: '@point11.pickleball'
+      },
+      {
+        id: 'v9',
+        name: 'Picklepark Koteshwor',
+        location: 'Koteshwor, Kathmandu',
+        courts: 2,
+        surface: 'Dedicated Acrylic Hardcourt',
+        hours: '06:00 AM - 09:30 PM',
+        phone: '+9779801239988',
+        instagram: 'https://www.instagram.com/pickleparkkoteshwor/',
+        instagramHandle: '@pickleparkkoteshwor'
+      },
+      {
+        id: 'v10',
         name: 'Match and Meals',
         location: 'Sanepa / Bijaynagar Marg, Lalitpur',
         courts: 2,
@@ -121,7 +180,7 @@ export function getDefaultState(): AppState {
         whatsapp: '+9779703932260'
       },
       {
-        id: 'v6',
+        id: 'v11',
         name: 'BoxArena',
         location: 'Tangal, Kathmandu',
         courts: 1,
@@ -133,7 +192,7 @@ export function getDefaultState(): AppState {
         whatsapp: '+9779700426645'
       },
       {
-        id: 'v7',
+        id: 'v12',
         name: 'The Flash Pickleball Nepal',
         location: 'Sukedhara / Naxal, Kathmandu',
         courts: 2,
@@ -145,31 +204,7 @@ export function getDefaultState(): AppState {
         whatsapp: '+9779813000555'
       },
       {
-        id: 'v8',
-        name: 'KickOff Arena',
-        location: 'Nagarjun (Sitapaila), Kathmandu',
-        courts: 2,
-        surface: 'Outdoor Pro Multi-Sport Hardcourt',
-        hours: '06:00 AM - 10:00 PM',
-        phone: '+9779869392979',
-        instagram: 'https://www.instagram.com/thekickoffarena/',
-        instagramHandle: '@thekickoffarena',
-        whatsapp: '+9779869392979'
-      },
-      {
-        id: 'v9',
-        name: 'Smash Pickleball Nepal',
-        location: 'Kathmandu',
-        courts: 2,
-        surface: 'Acrylic Hardcourt (UV Glow Night Play)',
-        hours: '06:00 AM - 10:00 PM',
-        phone: '+9779714556515',
-        instagram: 'https://www.instagram.com/smashpickleballnepal/',
-        instagramHandle: '@smashpickleballnepal',
-        whatsapp: '+9779714556515'
-      },
-      {
-        id: 'v10',
+        id: 'v13',
         name: 'Hardik Fitness Club & Pickleball',
         location: 'Pulchowk, Lalitpur',
         courts: 1,
@@ -180,7 +215,7 @@ export function getDefaultState(): AppState {
         instagramHandle: '@hardikfitnessclub'
       },
       {
-        id: 'v11',
+        id: 'v14',
         name: 'Turf Park',
         location: 'Dholahiti, Lalitpur',
         courts: 1,
@@ -192,7 +227,7 @@ export function getDefaultState(): AppState {
         whatsapp: '+9779741713775'
       },
       {
-        id: 'v12',
+        id: 'v15',
         name: 'Picklepoint Nepal',
         location: 'Sitakwa Marg, Kathmandu',
         courts: 2,
@@ -204,29 +239,7 @@ export function getDefaultState(): AppState {
         whatsapp: '+9779841234567'
       },
       {
-        id: 'v13',
-        name: 'Point11 Pickleball',
-        location: 'Kathmandu',
-        courts: 2,
-        surface: 'Regulation Pro Acrylic Hardcourt',
-        hours: '06:00 AM - 10:00 PM',
-        phone: '+9779851000011',
-        instagram: 'https://www.instagram.com/point11pickleball/',
-        instagramHandle: '@point11pickleball'
-      },
-      {
-        id: 'v14',
-        name: 'Picklepark',
-        location: 'Kathmandu Valley',
-        courts: 2,
-        surface: 'Dedicated Acrylic Hardcourt',
-        hours: '06:00 AM - 09:30 PM',
-        phone: '+9779801239988',
-        instagram: 'https://www.instagram.com/pickleparknepal/',
-        instagramHandle: '@pickleparknepal'
-      },
-      {
-        id: 'v15',
+        id: 'v16',
         name: 'Alley Oops',
         location: 'Sukedhara, Kathmandu',
         courts: 1,
@@ -238,7 +251,7 @@ export function getDefaultState(): AppState {
         whatsapp: '+9779801009988'
       },
       {
-        id: 'v16',
+        id: 'v17',
         name: 'DinkHaus (Meerkat Park)',
         location: 'Street-17, Lakeside, Pokhara',
         courts: 1,

@@ -15,15 +15,20 @@ export function LeaderboardScreen({ user, players, isDoubles }: Props) {
     'Pokhara',
     'The Pickleball Nepal',
     'PickleGo',
+    'Pick & Sip',
     'Serve & Sip',
-    'Rally Courtside',
-    'Match and Meals',
-    'Flash Pickleball',
+    'RALLY Pickleball',
     'KickOff Arena',
     'Smash Pickleball',
+    'Point 11',
+    'Picklepark Koteshwor',
+    'Match and Meals',
+    'Flash Pickleball',
     'Hardik Fitness',
+    'Turf Park',
     'BoxArena',
     'Picklepoint Nepal',
+    'Alley Oops',
     'DinkHaus'
   ];
 

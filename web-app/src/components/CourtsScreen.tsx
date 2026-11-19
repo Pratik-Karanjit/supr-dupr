@@ -42,13 +42,18 @@ export function CourtsScreen({ venues }: Props) {
             }}
           >
             <div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8, gap: 8 }}>
                 <div>
                   <div style={{ fontSize: 16, fontWeight: 800, color: 'var(--text-slate)' }}>{v.name}</div>
                   <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 3, display: 'flex', alignItems: 'center', gap: 4 }}>
                     <MapPin size={12} color="var(--navy-dark)" /> {v.location}
                   </div>
                 </div>
+                {v.comingSoon && (
+                  <span style={{ background: '#FEF3C7', color: '#B45309', border: '1px solid #FCD34D', fontSize: 11, padding: '3px 8px', borderRadius: 6, fontWeight: 800, whiteSpace: 'nowrap' }}>
+                    🚧 Coming Soon
+                  </span>
+                )}
               </div>
 
               <div style={{ display: 'flex', gap: 8, margin: '12px 0 8px 0', flexWrap: 'wrap' }}>

@@ -64,6 +64,7 @@ export interface Venue {
   instagram: string;
   instagramHandle: string;
   whatsapp?: string;
+  comingSoon?: boolean;
 }
 
 export interface RatingCalcResult {
