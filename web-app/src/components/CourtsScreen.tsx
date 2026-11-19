@@ -1,83 +1,109 @@
-import { MapPin, Phone, CheckCircle, Crosshair } from 'lucide-react';
+import { MapPin, Phone, MessageCircle, ExternalLink } from 'lucide-react';
 import type { Venue } from '../types';
+
+function InstagramIcon({ size = 14 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+    </svg>
+  );
+}
 
 interface Props {
   venues: Venue[];
-  checkedInVenueId: string | null;
-  onToggleCheckIn: (id: string, name: string) => void;
-  showToast: (msg: string) => void;
 }
 
-export function CourtsScreen({ venues, checkedInVenueId, onToggleCheckIn, showToast }: Props) {
+export function CourtsScreen({ venues }: Props) {
   return (
     <div>
-      <div style={{ fontSize: 14, fontWeight: 800, marginBottom: 16, color: 'var(--text-slate)', display: 'flex', alignItems: 'center', gap: 6 }}>
-        <MapPin size={16} color="var(--navy-dark)" /> Courts & Pickleball Clubs in Nepal
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+        <div>
+          <div style={{ fontSize: 16, fontWeight: 800, color: 'var(--text-slate)', display: 'flex', alignItems: 'center', gap: 6 }}>
+            <MapPin size={18} color="var(--navy-dark)" /> Verified Pickleball Courts in Nepal
+          </div>
+          <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>
+            Real locations, contact numbers, and direct Instagram booking channels
+          </div>
+        </div>
       </div>
 
       <div className="courts-grid">
-        {venues.map(v => {
-          const isHere = checkedInVenueId === v.id;
-          return (
-            <div
-              className="white-card"
-              key={v.id}
-              style={{
-                marginBottom: 0,
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                ...(isHere ? { borderColor: 'var(--navy-dark)', borderWidth: 1.5 } : {})
-              }}
-            >
-              <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
-                  <div>
-                    <div style={{ fontSize: 16, fontWeight: 800, color: 'var(--text-slate)' }}>{v.name}</div>
-                    <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2, display: 'flex', alignItems: 'center', gap: 4 }}>
-                      <MapPin size={12} color="var(--navy-dark)" /> {v.location}
-                    </div>
+        {venues.map(v => (
+          <div
+            className="white-card"
+            key={v.id}
+            style={{
+              marginBottom: 0,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between'
+            }}
+          >
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
+                <div>
+                  <div style={{ fontSize: 16, fontWeight: 800, color: 'var(--text-slate)' }}>{v.name}</div>
+                  <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 3, display: 'flex', alignItems: 'center', gap: 4 }}>
+                    <MapPin size={12} color="var(--navy-dark)" /> {v.location}
                   </div>
-                  {isHere && (
-                    <span style={{ background: 'var(--navy-dark)', color: '#FFF', fontSize: 9, fontWeight: 900, padding: '3px 8px', borderRadius: 4 }}>
-                      CHECKED IN
-                    </span>
-                  )}
-                </div>
-
-                <div style={{ display: 'flex', gap: 8, margin: '12px 0' }}>
-                  <span style={{ background: '#F1F5F9', fontSize: 11, padding: '4px 9px', borderRadius: 6, fontWeight: 700, color: 'var(--text-slate)' }}>
-                    {v.courts} Courts
-                  </span>
-                  <span style={{ background: 'var(--emerald-bg)', fontSize: 11, padding: '4px 9px', borderRadius: 6, color: 'var(--emerald-win)', fontWeight: 700 }}>
-                    ● {v.active + (isHere ? 1 : 0)} Active Players
-                  </span>
-                </div>
-
-                <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 16 }}>
-                  {v.hours} • {v.surface}
                 </div>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginTop: 'auto' }}>
-                <button
-                  className="btn-outline-navy"
-                  onClick={() => showToast(`Calling ${v.phone}...`)}
-                >
-                  <Phone size={13} /> Inquire / Book
-                </button>
-                <button
-                  className="btn-navy"
-                  style={{ padding: 10 }}
-                  onClick={() => onToggleCheckIn(v.id, v.name)}
-                >
-                  {isHere ? <CheckCircle size={14} /> : <Crosshair size={14} />}
-                  {isHere ? 'Check Out' : 'Check In'}
-                </button>
+              <div style={{ display: 'flex', gap: 8, margin: '12px 0', flexWrap: 'wrap' }}>
+                <span style={{ background: '#F1F5F9', fontSize: 11, padding: '4px 9px', borderRadius: 6, fontWeight: 700, color: 'var(--text-slate)' }}>
+                  {v.courts} Courts
+                </span>
+                <span style={{ background: '#F8FAFC', border: '1px solid var(--border-subtle)', fontSize: 11, padding: '4px 9px', borderRadius: 6, fontWeight: 700, color: 'var(--navy-dark)' }}>
+                  {v.surface}
+                </span>
+              </div>
+
+              <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 16 }}>
+                🕒 {v.hours}
               </div>
             </div>
-          );
-        })}
+
+            <div style={{ display: 'grid', gridTemplateColumns: v.whatsapp ? '1fr 1fr 44px' : '1fr 1fr', gap: 8, marginTop: 'auto' }}>
+              {/* Call Inquiry Button (uses real tel: protocol for phone dialer) */}
+              <a
+                href={`tel:${v.phone}`}
+                className="btn-outline-navy"
+                style={{ textDecoration: 'none', textAlign: 'center' }}
+                title={`Call ${v.phone}`}
+              >
+                <Phone size={13} /> Call
+              </a>
+
+              {/* Instagram Profile & DM Link */}
+              <a
+                href={v.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-navy"
+                style={{ textDecoration: 'none', padding: '10px 14px' }}
+                title={`Visit ${v.instagramHandle} on Instagram`}
+              >
+                <InstagramIcon size={14} /> Instagram <ExternalLink size={11} style={{ opacity: 0.7 }} />
+              </a>
+
+              {/* Optional WhatsApp Quick Chat */}
+              {v.whatsapp && (
+                <a
+                  href={`https://wa.me/${v.whatsapp.replace(/[^0-9]/g, '')}?text=Hi!%20I%20would%20like%20to%20inquire%20about%20pickleball%20court%20booking`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-outline-navy"
+                  style={{ textDecoration: 'none', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#16A34A', borderColor: '#BBF7D0' }}
+                  title="Chat on WhatsApp"
+                >
+                  <MessageCircle size={16} />
+                </a>
+              )}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

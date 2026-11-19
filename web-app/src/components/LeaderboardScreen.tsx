@@ -9,7 +9,17 @@ interface Props {
 
 export function LeaderboardScreen({ user, players, isDoubles }: Props) {
   const [filter, setFilter] = useState('All Nepal');
-  const categories = ['All Nepal', 'Kathmandu', 'Pokhara', 'Tiptoe Club', 'Boudha Arena', 'Dunkmandu'];
+  const categories = [
+    'All Nepal',
+    'Kathmandu',
+    'Pokhara',
+    'The Pickleball Nepal',
+    'Flash Pickleball',
+    'Picklepoint Nepal',
+    'BoxArena',
+    'Pick & Sip',
+    'DinkHaus'
+  ];
 
   const allList: (Player | (UserProfile & { hub: string; singles: number; doubles: number; rel: number; matches: number }))[] = [
     ...players,

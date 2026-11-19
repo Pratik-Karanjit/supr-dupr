@@ -1,7 +1,17 @@
 import { useState, useMemo } from 'react';
-import { Users, User, Shield, UserX, Send } from 'lucide-react';
+import { Users, User, Shield, UserX, Send, MapPin } from 'lucide-react';
 import type { UserProfile, Player, GameScore } from '../types';
 import { calculateMatchEngine } from '../services/ratingEngine';
+
+const VERIFIED_VENUES = [
+  'The Pickleball Nepal (Boudha)',
+  'The Flash Pickleball Nepal (Sukedhara / Naxal)',
+  'Picklepoint Nepal (Sitakwa Marg, Lalitpur)',
+  'BoxArena (Tangal)',
+  'Pick & Sip (Kamal Pokhari)',
+  'DinkHaus (Meerkat Park, Pokhara)',
+  'ANLTA Complex (Satdobato, Lalitpur)'
+];
 
 interface Props {
   user: UserProfile;
@@ -21,7 +31,7 @@ export function LogMatchScreen({ user, players, onSubmitMatch }: Props) {
   const [partner, setPartner] = useState('Rohan Shrestha');
   const [op1, setOp1] = useState('Bibek Thapa');
   const [op2, setOp2] = useState('Sujan Maharjan');
-  const [venue] = useState('Tiptoe Pickleball Club (Sanepa)');
+  const [venue, setVenue] = useState(VERIFIED_VENUES[0]);
 
   const [scores, setScores] = useState<GameScore[]>([
     { t1: 11, t2: 8 },
@@ -103,6 +113,15 @@ export function LogMatchScreen({ user, players, onSubmitMatch }: Props) {
               <option value="Sneha Shakya">Opponent 2: Sneha Shakya (3.420 • 75% Rel)</option>
             </select>
           )}
+
+          <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--text-slate)', margin: '10px 0 6px 0', display: 'flex', alignItems: 'center', gap: 6 }}>
+            <MapPin size={13} color="var(--navy-dark)" /> Verified Venue
+          </div>
+          <select value={venue} onChange={e => setVenue(e.target.value)}>
+            {VERIFIED_VENUES.map(v => (
+              <option key={v} value={v}>{v}</option>
+            ))}
+          </select>
         </div>
 
         {/* Match Scores (Best of 3) */}

@@ -60,8 +60,10 @@ export interface Venue {
   courts: number;
   surface: string;
   hours: string;
-  active: number;
   phone: string;
+  instagram: string;
+  instagramHandle: string;
+  whatsapp?: string;
 }
 
 export interface RatingCalcResult {

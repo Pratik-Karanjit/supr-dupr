@@ -9,13 +9,36 @@ interface Props {
 }
 
 export function AnalyticsScreen({ user, matches, isDoubles, setIsDoubles }: Props) {
-  const rating = isDoubles ? user.doublesRating : user.singlesRating;
+  const currentRating = isDoubles ? user.doublesRating : user.singlesRating;
 
-  const points = user.history.map((h, i) => {
-    const x = 25 + (i * (290 / Math.max(user.history.length - 1, 1)));
-    const y = 95 - ((h.rating - 3.0) * 115);
-    return `${x},${y}`;
-  }).join(' ');
+  // Professional Scaled Trajectory Chart Math
+  const W = 700;
+  const H = 220;
+  const leftPad = 52;
+  const rightPad = 32;
+  const topPad = 32;
+  const bottomPad = 36;
+  const plotWidth = W - leftPad - rightPad;
+  const plotHeight = H - topPad - bottomPad;
+
+  const minRating = 3.000;
+  const maxRating = 3.700;
+  const ratingRange = maxRating - minRating;
+
+  const getY = (val: number) => {
+    const clamped = Math.max(minRating, Math.min(maxRating, val));
+    return topPad + plotHeight - ((clamped - minRating) / ratingRange) * plotHeight;
+  };
+
+  const getX = (idx: number, total: number) => {
+    if (total <= 1) return leftPad + plotWidth / 2;
+    return leftPad + (idx / (total - 1)) * plotWidth;
+  };
+
+  const points = user.history.map((h, i) => `${getX(i, user.history.length)},${getY(h.rating)}`).join(' ');
+
+  // Y-axis grid lines at 3.60, 3.40, 3.20, 3.00
+  const yTicks = [3.600, 3.400, 3.200, 3.000];
 
   return (
     <div className="analytics-grid">
@@ -78,36 +101,126 @@ export function AnalyticsScreen({ user, matches, isDoubles, setIsDoubles }: Prop
 
       {/* Right Column (Desktop) / Bottom Section (Mobile) */}
       <div>
-        {/* Trajectory Chart */}
-        <div className="white-card">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+        {/* Generous Sports Trajectory Chart */}
+        <div className="white-card" style={{ padding: '20px 22px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
             <div>
-              <div style={{ fontSize: 14, fontWeight: 800, color: 'var(--text-slate)' }}>{isDoubles ? 'Doubles' : 'Singles'} Performance Trajectory</div>
-              <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>Verified match rating changes</div>
+              <div style={{ fontSize: 15, fontWeight: 800, color: 'var(--text-slate)' }}>
+                {isDoubles ? 'Doubles' : 'Singles'} Rating Progression Curve
+              </div>
+              <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>
+                Official verified performance trajectory across recent match events
+              </div>
             </div>
-            <span className="mono" style={{ fontSize: 13, fontWeight: 800, color: 'var(--navy-dark)', background: '#F1F5F9', padding: '3px 8px', borderRadius: 6 }}>
-              {rating.toFixed(3)}
-            </span>
+            <div style={{ textAlign: 'right' }}>
+              <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase' }}>CURRENT</div>
+              <span className="mono" style={{ fontSize: 15, fontWeight: 900, color: 'var(--navy-dark)', background: '#F1F5F9', padding: '4px 10px', borderRadius: 8 }}>
+                {currentRating.toFixed(3)}
+              </span>
+            </div>
           </div>
-          <svg width="100%" height="115" viewBox="0 0 340 115" preserveAspectRatio="none">
-            <line x1="0" y1="25" x2="340" y2="25" stroke="#E2E8F0" strokeWidth="1" strokeDasharray="2 2" />
-            <line x1="0" y1="65" x2="340" y2="65" stroke="#E2E8F0" strokeWidth="1" strokeDasharray="2 2" />
-            <polyline fill="none" stroke="#0EA5E9" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" points={points} />
-            {user.history.map((h, i) => {
-              const x = 25 + (i * (290 / Math.max(user.history.length - 1, 1)));
-              const y = 95 - ((h.rating - 3.0) * 115);
-              return <circle key={i} cx={x} cy={y} r={4} fill="#FFF" stroke="#0EA5E9" strokeWidth={2} />;
-            })}
-          </svg>
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: 'var(--text-muted)', fontWeight: 600, marginTop: 6 }}>
-            <span>{user.history[0]?.date}</span>
-            <span>Historical Progression</span>
-            <span>{user.history[user.history.length - 1]?.date}</span>
+
+          <div style={{ width: '100%', height: 'auto', overflow: 'hidden' }}>
+            <svg
+              viewBox={`0 0 ${W} ${H}`}
+              style={{ width: '100%', height: 'auto', display: 'block' }}
+            >
+              {/* Horizontal Grid lines and Y-axis labels */}
+              {yTicks.map(t => {
+                const y = getY(t);
+                return (
+                  <g key={t}>
+                    <text
+                      x={leftPad - 10}
+                      y={y + 4}
+                      textAnchor="end"
+                      fill="#94A3B8"
+                      fontSize="10"
+                      fontFamily="'JetBrains Mono', monospace"
+                      fontWeight="600"
+                    >
+                      {t.toFixed(2)}
+                    </text>
+                    <line
+                      x1={leftPad}
+                      y1={y}
+                      x2={W - rightPad}
+                      y2={y}
+                      stroke="#E2E8F0"
+                      strokeWidth="1"
+                      strokeDasharray="4 4"
+                    />
+                  </g>
+                );
+              })}
+
+              {/* Area fill under curve */}
+              <polygon
+                points={`${points} ${getX(user.history.length - 1, user.history.length)},${topPad + plotHeight} ${leftPad},${topPad + plotHeight}`}
+                fill="#0EA5E9"
+                fillOpacity="0.08"
+              />
+
+              {/* Main trajectory path */}
+              <polyline
+                fill="none"
+                stroke="#0EA5E9"
+                strokeWidth="3.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                points={points}
+              />
+
+              {/* Nodes and Tooltip Pills */}
+              {user.history.map((h, i) => {
+                const cx = getX(i, user.history.length);
+                const cy = getY(h.rating);
+                return (
+                  <g key={i}>
+                    {/* Node Circle */}
+                    <circle cx={cx} cy={cy} r={6} fill="#FFFFFF" stroke="#0EA5E9" strokeWidth={3} />
+
+                    {/* Value Badge above node */}
+                    <rect
+                      x={cx - 24}
+                      y={cy - 24}
+                      width={48}
+                      height={18}
+                      rx={5}
+                      fill="#1E3A5F"
+                    />
+                    <text
+                      x={cx}
+                      y={cy - 12}
+                      textAnchor="middle"
+                      fill="#FFFFFF"
+                      fontSize="10"
+                      fontFamily="'JetBrains Mono', monospace"
+                      fontWeight="800"
+                    >
+                      {h.rating.toFixed(2)}
+                    </text>
+
+                    {/* Date label under node */}
+                    <text
+                      x={cx}
+                      y={topPad + plotHeight + 20}
+                      textAnchor="middle"
+                      fill="#64748B"
+                      fontSize="11"
+                      fontWeight="700"
+                    >
+                      {h.date}
+                    </text>
+                  </g>
+                );
+              })}
+            </svg>
           </div>
         </div>
 
-        {/* Recent Matches */}
-        <div className="match-feed-header">
+        {/* Recent Matches Scorecards */}
+        <div className="match-feed-header" style={{ marginTop: 20 }}>
           <span className="section-title">Recent Matches</span>
           <span className="feed-count">{matches.length} Total</span>
         </div>
@@ -121,7 +234,7 @@ export function AnalyticsScreen({ user, matches, isDoubles, setIsDoubles }: Prop
           return (
             <div className="scorecard" key={m.id}>
               <div className="scorecard-meta-bar">
-                <span className="meta-venue"><MapPin size={10} color="var(--navy-dark)" /> {m.venue.split('(')[0]}</span>
+                <span className="meta-venue"><MapPin size={11} color="var(--navy-dark)" /> {m.venue.split('(')[0]}</span>
                 <span className="meta-code">{m.date} • #{m.code}</span>
               </div>
 

@@ -177,9 +177,6 @@ export function App() {
           {activeTab === 'courts' && (
             <CourtsScreen
               venues={state.venues}
-              checkedInVenueId={checkedInVenueId}
-              onToggleCheckIn={toggleCheckIn}
-              showToast={showToast}
             />
           )}
         </main>
